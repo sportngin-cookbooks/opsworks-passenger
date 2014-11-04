@@ -1,0 +1,17 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos-6.6
+    driver_config:
+      require_chef_omnibus: "11.4"
+
+suites:
+  - name: default
+    run_list:
+      - recipe[opsworks-passenger::default]
+    attributes:
