@@ -1,6 +1,7 @@
 env:
   global:
   - EC2_SSH_KEY_PATH: ec2.pem
+#  TODO update
   - secure: J8s8Sr/0sGPTCzrBW4TIGpDE0cc1eGCYXqpPcjwzn2bO0bTLiDmUWfNSOAbCy5S1/T7pA4//m08ANetByEbu0f+BsiZsXXv/5bA668zidoKdJxhJXUY5HOjnrNOFllpt6tSxokjZozYWWFMKp+nx3gcEpJegnsUQ7iHUHqgXnwo=
   - secure: a24qKvjTYBaf6BC0QcHzAXLTpVHnC3LPFdPlqwBQj2eiCuIrAed2OzXDElr3S3cdqVfmt7Y39EqW9WFiM8mqFaCyGjO/VkLKLpYFqpC/RYVO0j1L4FepFY5WcsnXZ99U/kAypHywX//kdMOC7PdDlQ1wtGUq5hoX8F8jIgsOmrM=
   - secure: eVxMUzp+FcEjhI4d1KfO3/mglARtyxHmXpMbIjOGQTH2SlDEvRyy4vyOOer3gLNqxjcYVMVqB9yO0zE0Q1oEEecLR0cfxj/LVEU9YogTNRGxEbHHGX3lUw9SCGy69nZz3eNWOvMj6BIIcV1/d0vP9JVaQYe22qYd9bJiYEMNRag=
