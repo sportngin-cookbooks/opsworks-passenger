@@ -1,3 +1,10 @@
+# Local RPM package
+default['rpm']['package_location'] = '/usr/src/rpm/RPMS/x86_64/'
+default[:nginx_local_rpms] = {
+    '1.2.9' => 'nginx-1.2.9-passenger1.amzn1.x86_64.rpm'
+}
+
+# Compile from source
 override['nginx']['install_method'] = 'source'
 override['nginx']['version'] = '1.2.9'
 override['nginx']['source']['checksum'] = 'b8d104542c8b74161147762e31428cc3'

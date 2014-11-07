@@ -52,40 +52,9 @@ define :puma_config, :owner => 'deploy', :group => 'nginx', :directory  => nil, 
     variables params
   end
 
-  template "puma_start.sh" do
-    source "puma_start.sh.erb"
-    path "#{params[:puma_directory]}/puma_start.sh"
-    cookbook "opsworks-puma"
-    mode "0744"
-    owner params[:owner] if params[:owner]
-    group params[:group] if params[:group]
-    variables params
-  end
-
-  template "puma_stop.sh" do
-    source "puma_stop.sh.erb"
-    path "#{params[:puma_directory]}/puma_stop.sh"
-    cookbook "opsworks-puma"
-    mode "0744"
-    owner params[:owner] if params[:owner]
-    group params[:group] if params[:group]
-    variables params
-  end
-
-  template "puma_restart.sh" do
-    source "puma_restart.sh.erb"
-    path "#{params[:puma_directory]}/puma_restart.sh"
-    cookbook "opsworks-puma"
-    mode "0744"
-    owner params[:owner] if params[:owner]
-    group params[:group] if params[:group]
-    variables params
-  end
-
   template "#{params[:name]}" do
-    source "init.d.sh.erb"
+    source "nginx.init.erb"
     path "/etc/init.d/#{params[:name]}"
-    cookbook "opsworks-puma"
     mode "0755"
     owner params[:owner] if params[:owner]
     group params[:group] if params[:group]

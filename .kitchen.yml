@@ -39,10 +39,11 @@ suites:
 #  - name: default
 #    run_list:
 #      - recipe[opsworks-passenger::default]
-#    attributes:
-  - name: nginx
+  - name: package
+    run_list:
+      - recipe[opsworks-passenger::package]
+  - name: source
     run_list:
       - recipe[ruby]
       - recipe[gem_support]
-      - recipe[opsworks-passenger::nginx]
-    attributes:
+      - recipe[opsworks-passenger::source]
