@@ -12,4 +12,4 @@
 
 # Author
 
-Author:: YOUR_NAME (<YOUR_EMAIL>)
+Author:: Sport Ngin Platform Operations (<platform-ops@sportngin.com>)
