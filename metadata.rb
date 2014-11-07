@@ -8,7 +8,11 @@ version          '0.1.0'
 
 supports 'amazon'
 
-depends 'opsworks_commons'
-depends 'ruby'
-depends 'gem_support'
+# opsworks-cookbooks
+# depends 'opsworks_commons'
+# depends 'ruby'
+# depends 'gem_support'
+depends 'deploy'
+
+# supermarket
 depends 'nginx'

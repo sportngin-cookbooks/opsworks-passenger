@@ -36,14 +36,9 @@ platforms:
         Env: public
 
 suites:
-#  - name: default
-#    run_list:
-#      - recipe[opsworks-passenger::default]
-  - name: package
-    run_list:
-      - recipe[opsworks-passenger::package]
-  - name: source
+  - name: default
     run_list:
       - recipe[ruby]
       - recipe[gem_support]
-      - recipe[opsworks-passenger::source]
+      - recipe[opsworks-passenger::default]
+
