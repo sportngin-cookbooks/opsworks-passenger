@@ -1,9 +1,9 @@
 include_recipe "opsworks-passenger::custom_package"
 
 directory node[:nginx][:dir] do
-  owner 'root'
-  group 'root'
-  mode '0755'
+  owner "root"
+  group "root"
+  mode "0755"
 end
 
 directory node[:nginx][:log_dir] do
@@ -14,9 +14,9 @@ end
 
 %w{sites-available sites-enabled conf.d}.each do |dir|
   directory File.join(node[:nginx][:dir], dir) do
-    owner 'root'
-    group 'root'
-    mode '0755'
+    owner "root"
+    group "root"
+    mode "0755"
   end
 end
 
@@ -29,6 +29,12 @@ end
     group "root"
   end
 end
+
+
+gem_package "passenger" do
+  version node["passenger"]["version"]
+end
+
 
 include_recipe "nginx::service"
 

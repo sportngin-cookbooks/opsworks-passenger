@@ -1,4 +1,4 @@
-define :nginx_config, :name => nil, :cookbook => "opsworks-passenger", variables => nil do
+define :nginx_config, :name => nil, :cookbook => "opsworks-passenger", :variables => nil do
   name = params[:name]
   template "/etc/nginx/conf.d/#{name}.conf" do
     source "#{name}.conf.erb"
