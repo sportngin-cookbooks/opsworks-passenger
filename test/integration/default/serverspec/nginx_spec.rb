@@ -13,3 +13,12 @@ end
 describe command('nginx -V') do
   its(:stdout) { should match 'passenger'}
 end
+
+describe port(80) do
+  it { should be_listening }
+end
+
+describe command('curl -sI localhost') do
+  its(:stdout) { should match "200 OK" }
+end
+
