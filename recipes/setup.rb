@@ -1,3 +1,5 @@
+include_recipe "opsworks-passenger::custom_package"
+
 directory node[:nginx][:dir] do
   owner 'root'
   group 'root'

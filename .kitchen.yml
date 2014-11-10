@@ -10,7 +10,7 @@ driver:
   aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
-  require_chef_omnibus: "11.4"
+  require_chef_omnibus: "11.4.4"
 
 provisioner:
   name: chef_solo
