@@ -20,8 +20,7 @@ group :deploy_dependencies do
   opsworks_cookbook 'dependencies'
   opsworks_cookbook 'apache2'
   opsworks_cookbook 'mod_php5_apache2'
-  # Intentional exclusion of opsworks nginx to use supermarket nginx cookbook.
-  # opsworks_cookbook 'nginx'
+  opsworks_cookbook 'nginx'
   opsworks_cookbook 'ssh_users'
   opsworks_cookbook 'opsworks_agent_monit'
   opsworks_cookbook 'passenger_apache2'
@@ -35,5 +34,7 @@ end
 
 # Gem support for installing passenger for installing into system ruby (not chef ruby).
 opsworks_cookbook 'gem_support'
+
+opsworks_cookbook 'nginx'
 
 metadata

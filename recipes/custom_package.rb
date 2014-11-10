@@ -18,9 +18,3 @@ rpm_package "nginx" do
   not_if "nginx -v | grep #{node[:nginx][:version]}"
 end
 
-service 'nginx' do
-  supports :status => true, :restart => true, :reload => true
-  action   :enable
-end
-
-include_recipe 'nginx::commons'
