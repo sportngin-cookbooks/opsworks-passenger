@@ -39,6 +39,5 @@ suites:
   - name: default
     run_list:
       - recipe[ruby]
-      - recipe[gem_support]
       - recipe[opsworks-passenger::default]
 

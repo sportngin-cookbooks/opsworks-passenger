@@ -7,6 +7,7 @@ end
 opsworks_cookbook 'ruby'
 group :ruby_dependencies do
   opsworks_cookbook 'dependencies'
+  opsworks_cookbook 'gem_support'
   opsworks_cookbook 'packages'
   opsworks_cookbook 'ruby_enterprise'
   opsworks_cookbook 'opsworks_commons'
@@ -18,6 +19,7 @@ end
 opsworks_cookbook 'deploy'
 group :deploy_dependencies do
   opsworks_cookbook 'dependencies'
+  opsworks_cookbook 'gem_support'
   opsworks_cookbook 'apache2'
   opsworks_cookbook 'mod_php5_apache2'
   opsworks_cookbook 'nginx'
@@ -31,9 +33,6 @@ group :deploy_dependencies do
   opsworks_cookbook 'mysql'
   opsworks_cookbook 'opsworks_postgresql'
 end
-
-# Gem support for installing passenger for installing into system ruby (not chef ruby).
-opsworks_cookbook 'gem_support'
 
 opsworks_cookbook 'nginx'
 
