@@ -14,7 +14,7 @@ default[:nginx][:default_site][:enable] = true
 default[:nginx][:default_site][:path] = "#{data_dir}/rack"
 
 default[:passenger][:version] = "3.0.21"
-default[:passenger][:root] = "#{node[:languages][:ruby][:gems_dir]}/gems/passenger-#{node[:passenger][:version]}"
+default[:passenger][:root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
 default[:passenger][:ruby] = node[:languages][:ruby][:ruby_bin]
 default[:passenger][:spawn_method] = "smart-lv2"
 default[:passenger][:buffer_response] = "on"
