@@ -21,10 +21,3 @@ passenger_default_group <%= node[:passenger][:default_group] %>;
 passenger_friendly_error_pages <%= node[:passenger][:friendly_error_pages] %>;
 <% end %>
 
-
-# These seem deprecated and are no longer documented; are they still needed?
-# rails_framework_spawner_idle_time 0;
-# passenger_use_global_queue on;
-# passenger_buffers 8 16k;
-# passenger_buffer_size 32k;
-
