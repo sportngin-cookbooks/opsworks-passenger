@@ -1,10 +1,10 @@
 passenger_root <%= node[:passenger][:root] %>;
 passenger_ruby <%= node[:passenger][:ruby] %>;
-passenger_max_pool_size <%= node[:passenger][:max_pool_size] %>;
-passenger_spawn_method <%= node[:passenger][:spawn_method] %>;
-passenger_buffer_response <%= node[:passenger][:buffer_response] %>;
+
 passenger_min_instances <%= node[:passenger][:min_instances] %>;
 passenger_max_instances_per_app <%= node[:passenger][:max_instances_per_app] %>;
+passenger_max_pool_size <%= node[:passenger][:max_pool_size] %>;
+passenger_spawn_method <%= node[:passenger][:spawn_method] %>;
 passenger_pool_idle_time <%= node[:passenger][:pool_idle_time] %>;
 passenger_max_requests <%= node[:passenger][:max_requests] %>;
 passenger_log_level <%= node[:passenger][:log_level] %>;

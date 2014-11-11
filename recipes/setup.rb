@@ -36,7 +36,7 @@ end
 end
 
 bash "Setup Nginx integration in passenger gem" do
-  code "rake nginx:clean nginx RELEASE=yes"
+  code "rake nginx RELEASE=yes"
   cwd node[:passenger][:root]
 end
 
