@@ -1,0 +1,7 @@
+server {
+    listen   80;
+    server_name  127.0.0.1;
+
+    root   <%= node[:nginx][:default_site][:path] %>/public;
+    passenger_enabled on;
+}

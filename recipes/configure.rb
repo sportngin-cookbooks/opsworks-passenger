@@ -14,14 +14,12 @@ template "#{node[:nginx][:dir]}/conf.d/passenger.conf" do
 end
 
 template "#{node[:nginx][:dir]}/sites-available/default" do
-  source "default-site.erb"
+  source "default_site.erb"
   owner "root"
   group "root"
   mode 0644
 end
-
-
-if node[:nginx][:default_site]
+if node[:nginx][:default_site][:enable]
   execute "nxensite default" do
     command "/usr/sbin/nxensite default"
     not_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/default") end

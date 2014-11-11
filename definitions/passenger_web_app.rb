@@ -12,9 +12,7 @@ define :passenger_web_app do
     http_port deploy[:http_port] || 80
     ssl_port deploy[:ssl_port] || 443
     ssl_support deploy[:ssl_support] || false
-    cookbook "opsworks-passenger"
     deploy deploy
-    # template "nginx_passenger_web_app.erb"
     application deploy
   end
 end
