@@ -8,8 +8,8 @@ end
 
 template node[:ruby_wrapper][:install_path] do
   source "ruby-wrapper.sh.erb"
-  owner "deploy"
-  group "deploy"
+  owner "root"
+  group "root"
   mode 0755
   action :create
   variables(
