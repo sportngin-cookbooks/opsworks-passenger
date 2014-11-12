@@ -40,4 +40,7 @@ suites:
     run_list:
       - recipe[ruby]
       - recipe[opsworks-passenger::default]
-
+    attributes:
+      nginx:
+        default_site:
+          enable: true

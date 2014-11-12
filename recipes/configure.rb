@@ -22,12 +22,12 @@ end
 if node[:nginx][:default_site][:enable]
   execute "nxensite default" do
     command "/usr/sbin/nxensite default"
-    not_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/default") end
+    not_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/000-default") end
   end
 else
   execute "nxdissite default" do
     command "/usr/sbin/nxdissite default"
-    only_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/default") end
+    only_if do File.symlink?("#{node[:nginx][:dir]}/sites-enabled/000-default") end
   end
 end
 

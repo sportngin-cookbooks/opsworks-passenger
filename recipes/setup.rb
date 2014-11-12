@@ -2,6 +2,7 @@ package "curl-devel"
 
 gem_package "passenger" do
   version node["passenger"]["version"]
+  not_if "gem list | egrep 'passenger \\(#{node[:passenger][:version]}'"
 end
 
 include_recipe "opsworks-passenger::custom_package"
@@ -38,6 +39,7 @@ end
 bash "Setup Nginx integration in passenger gem" do
   code "rake nginx RELEASE=yes"
   cwd node[:passenger][:root]
+  not_if { File.directory? "#{node[:passenger][:root]}/agents" }
 end
 
 
