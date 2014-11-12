@@ -1,5 +1,4 @@
 # Overrides of opsworks nginx attributes.
-override[:nginx][:install_method] = "custom_package"
 override[:nginx][:worker_processes] = node[:cpu][:total] * 3
 override[:nginx][:client_max_body_size] = "100M"
 override[:nginx][:gzip_http_version] = "1.1"
@@ -20,7 +19,7 @@ default[:passenger][:root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{no
 default[:passenger][:ruby] = node[:languages][:ruby][:ruby_bin]
 
 # http://blog.phusion.nl/2013/03/12/tuning-phusion-passengers-concurrency-settings/
-default[:passenger][:optimize_for] = 'blocking_io'
+default[:passenger][:optimize_for] = 'processing'
 default[:passenger][:avg_app_process_memory] = 100 # Mb
 case node[:passenger][:optimize_for]
   when 'blocking_io'
@@ -28,7 +27,7 @@ case node[:passenger][:optimize_for]
     max_app_processes = ((total_mem * 0.75) / default[:passenger][:avg_app_process_memory]).to_i
     min_app_processes = [1, (max_app_processes / 2).to_i].max
   when 'processing'
-    min_app_processes = max_app_processes = node[:cpu][:total]
+    min_app_processes = max_app_processes = node[:cpu][:total] * 2
   else
     raise "Unsupported passenger.optimization_for value: #{node[:passenger][:optimize_for]}"
 end
