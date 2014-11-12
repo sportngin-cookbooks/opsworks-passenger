@@ -4,19 +4,33 @@ override[:nginx][:client_max_body_size] = "100M"
 override[:nginx][:gzip_http_version] = "1.1"
 override[:nginx][:gzip_comp_level] = "8"
 
-# Extensions
+
+# Custom Nginx package
 default[:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
 default[:custom_package][:source] = "https://s3.amazonaws.com/sportngin-packages/public/nginx-1.2.9-passenger1.amzn1.x86_64.rpm"
 
+
+# Default Site
 data_dir = "#{`rpm --eval '%{_datadir}' | tr -d '\n'`}/nginx"
 default[:nginx][:default_site][:enable] = false
 default[:nginx][:default_site][:path] = "#{data_dir}/rack"
 
 
+# rubywrapper
+default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
+default[:ruby_wrapper][:ruby_binary] = node[:languages][:ruby][:ruby_bin]
+# Size of a heap slot is 40 bytes. Start heap of app at 125 MB, which results in app memory footprint of around 330MB.
+default[:ruby_wrapper][:heap_min_slots] = 3276800
+# 30 million calls between garbage collection.
+default[:ruby_wrapper][:gc_malloc_limit] = 30000000
+# Number of heap slots that should be available after a garbage collector run.
+default[:ruby_wrapper][:heap_free_min] = 100000
+default[:ruby_wrapper][:extra_env_vars] = {}
+
+
 # Passenger
 default[:passenger][:version] = "3.0.21"
 default[:passenger][:root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
-default[:passenger][:ruby] = node[:languages][:ruby][:ruby_bin]
 
 # http://blog.phusion.nl/2013/03/12/tuning-phusion-passengers-concurrency-settings/
 default[:passenger][:optimize_for] = 'processing'
@@ -44,3 +58,5 @@ default[:passenger][:default_user] = nil
 default[:passenger][:default_group] = nil
 default[:passenger][:log_level] = 0
 default[:passenger][:friendly_error_pages] = nil
+
+

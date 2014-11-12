@@ -1,5 +1,5 @@
 passenger_root <%= node[:passenger][:root] %>;
-passenger_ruby <%= node[:passenger][:ruby] %>;
+passenger_ruby <%= node[:ruby_wrapper][:install_path] %>;
 
 passenger_min_instances <%= node[:passenger][:min_instances] %>;
 passenger_max_instances_per_app <%= node[:passenger][:max_instances_per_app] %>;
