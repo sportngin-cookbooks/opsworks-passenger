@@ -1,23 +1,23 @@
-passenger_root <%= node[:passenger][:root] %>;
-passenger_ruby <%= node[:ruby_wrapper][:install_path] %>;
+passenger_root <%= @root %>;
+passenger_ruby <%= @ruby %>;
 
-passenger_min_instances <%= node[:passenger][:min_instances] %>;
-passenger_max_instances_per_app <%= node[:passenger][:max_instances_per_app] %>;
-passenger_max_pool_size <%= node[:passenger][:max_pool_size] %>;
-passenger_spawn_method <%= node[:passenger][:spawn_method] %>;
-passenger_pool_idle_time <%= node[:passenger][:pool_idle_time] %>;
-passenger_max_requests <%= node[:passenger][:max_requests] %>;
-passenger_log_level <%= node[:passenger][:log_level] %>;
+passenger_min_instances <%= @config[:min_instances] %>;
+passenger_max_instances_per_app <%= @config[:max_instances_per_app] %>;
+passenger_max_pool_size <%= @config[:max_pool_size] %>;
+passenger_spawn_method <%= @config[:spawn_method] %>;
+passenger_pool_idle_time <%= @config[:pool_idle_time] %>;
+passenger_max_requests <%= @config[:max_requests] %>;
+passenger_log_level <%= @config[:log_level] %>;
 
-<% unless node[:passenger][:default_user].nil? %>
-passenger_default_user <%= node[:passenger][:default_user] %>;
+<% unless @config[:default_user].nil? %>
+passenger_default_user <%= @config[:default_user] %>;
 <% end %>
 
-<% unless node[:passenger][:default_group].nil? %>
-passenger_default_group <%= node[:passenger][:default_group] %>;
+<% unless @config[:default_group].nil? %>
+passenger_default_group <%= @config[:default_group] %>;
 <% end %>
 
-<% unless node[:passenger][:friendly_error_pages].nil? %>
-passenger_friendly_error_pages <%= node[:passenger][:friendly_error_pages] %>;
+<% unless @config[:friendly_error_pages].nil? %>
+passenger_friendly_error_pages <%= @config[:friendly_error_pages] %>;
 <% end %>
 

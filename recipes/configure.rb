@@ -33,6 +33,11 @@ template "#{node[:nginx][:dir]}/conf.d/passenger.conf" do
   owner  "root"
   group  "root"
   mode   "0644"
+  variables(
+      :root => node[:passenger][:root],
+      :ruby => node[:ruby_wrapper][:install_path],
+      :config => node[:passenger]
+  )
 end
 
 template "#{node[:nginx][:dir]}/sites-available/default" do
