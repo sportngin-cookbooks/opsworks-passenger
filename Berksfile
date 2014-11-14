@@ -4,7 +4,10 @@ def opsworks_cookbook(name, branch='release-chef-11.4')
   cookbook name, github: 'aws/opsworks-cookbooks', branch: branch, rel: name
 end
 def unused_cookbook(name)
-  cookbook name, path: 'empty-cookbook'
+  dir = '.empty-cookbook'
+  Dir.mkdir(dir) unless Dir.exist?(dir)
+  File.open("#{dir}/metadata.rb", 'w') {} unless File.exist?("#{dir}/metadata.rb")
+  cookbook name, path: dir
 end
 
 opsworks_cookbook 'ruby'

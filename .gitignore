@@ -16,3 +16,4 @@ bin/*
 .kitchen/
 .kitchen.local.yml
 *.pem
+.empty-cookbook
