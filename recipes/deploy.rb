@@ -15,7 +15,7 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
-  passenger_web_app do
+  passenger_nginx_app do
     application application
     deploy deploy
   end
