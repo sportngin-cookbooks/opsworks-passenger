@@ -48,7 +48,6 @@ suites:
       - recipe[ruby]
       - recipe[opsworks-passenger::setup]
       - recipe[opsworks-passenger::test-setup]
-      - recipe[opsworks-passenger::configure]
       - recipe[opsworks-passenger::deploy]
     attributes:
       nginx:
