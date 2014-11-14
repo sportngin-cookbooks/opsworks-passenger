@@ -13,6 +13,14 @@ directory node[:nginx][:dir] do
   mode "0755"
 end
 
+%w{shared_server.conf.d http_server.conf.d ssl_server.conf.d}.each do |dir|
+  directory File.join(node[:nginx][:dir], dir) do
+    owner "root"
+    group "root"
+    mode "0755"
+  end
+end
+
 directory node[:nginx][:log_dir] do
   mode 0755
   owner node[:nginx][:user]
@@ -41,33 +49,6 @@ bash "Setup Nginx integration in passenger gem" do
   cwd node[:passenger][:root]
   not_if { File.directory? "#{node[:passenger][:root]}/agents" }
 end
-
-
-if node[:nginx][:default_site][:enable]
-  directory node[:nginx][:default_site][:path] do
-    mode 0755
-    owner node[:nginx][:user]
-  end
-  directory "#{node[:nginx][:default_site][:path]}/public" do
-    mode 0755
-    owner node[:nginx][:user]
-  end
-  directory "#{node[:nginx][:default_site][:path]}/tmp" do
-    mode 0755
-    owner node[:nginx][:user]
-  end
-  cookbook_file "#{node[:nginx][:default_site][:path]}/config.ru" do
-    mode 0755
-    owner node[:nginx][:user]
-    source "default_site/config.ru"
-  end
-  cookbook_file "#{node[:nginx][:default_site][:path]}/public/static.txt" do
-    mode 0755
-    owner node[:nginx][:user]
-    source "default_site/static.txt"
-  end
-end
-
 
 include_recipe "nginx::service"
 service "nginx" do

@@ -10,4 +10,5 @@ supports 'amazon'
 
 # opsworks-cookbooks
 depends 'deploy'
+depends 'scm_helper'
 depends 'nginx'

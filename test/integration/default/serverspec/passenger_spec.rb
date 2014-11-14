@@ -9,7 +9,7 @@ describe command('curl -I localhost') do
 end
 
 describe command('curl localhost') do
-  its(:stdout) { should match "Default Rack Site" }
+  its(:stdout) { should match "Test Rack App" }
 end
 
 describe command('curl localhost/static.txt') do

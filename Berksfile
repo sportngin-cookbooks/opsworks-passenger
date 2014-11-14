@@ -35,6 +35,7 @@ group :deploy_dependencies do
   unused_cookbook 'php'
   unused_cookbook 'mysql'
   unused_cookbook 'opsworks_postgresql'
+  opsworks_cookbook 'scm_helper'
 end
 
 opsworks_cookbook 'nginx'

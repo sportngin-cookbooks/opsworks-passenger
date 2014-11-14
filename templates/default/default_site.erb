@@ -1,7 +1,11 @@
 server {
-    listen   80;
-    server_name  127.0.0.1;
+  listen   80;
+  server_name  127.0.0.1;
 
-    root   <%= node[:nginx][:default_site][:path] %>/public;
-    passenger_enabled on;
+  access_log  <%= node[:nginx][:log_dir] %>/localhost.access.log;
+
+  location / {
+    root   <%= @root_dir %>;
+    index  index.html index.htm;
+  }
 }

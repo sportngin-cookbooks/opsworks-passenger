@@ -1,0 +1,6 @@
+server_tokens off;
+
+# This resolves CVE-2013-4547 http://mailman.nginx.org/pipermail/nginx-announce/2013/000125.html
+if ($request_uri ~ " ") {
+  return 444;
+}

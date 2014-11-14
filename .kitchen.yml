@@ -14,11 +14,14 @@ driver:
 
 provisioner:
   name: chef_zero
+  environments_path: ./test/environments
   attributes:
-    kitchen: true
-    rails_env: 'production'
+    test_kitchen: true
+    rails_env: 'test'
     opsworks:
       ruby_version: '1.9.3'
+    custom_package:
+      source: https://s3.amazonaws.com/sportngin-packages/public/nginx-1.2.9-passenger1.amzn1.x86_64.rpm
 
 platforms:
   - name: amazon-2014.10
@@ -37,9 +40,15 @@ platforms:
 
 suites:
   - name: default
+    provisioner:
+      client_rb:
+        environment: test
     run_list:
       - recipe[ruby]
-      - recipe[opsworks-passenger::default]
+      - recipe[opsworks-passenger::setup]
+      - recipe[opsworks-passenger::test-setup]
+      - recipe[opsworks-passenger::configure]
+      - recipe[opsworks-passenger::deploy]
     attributes:
       nginx:
         default_site:
