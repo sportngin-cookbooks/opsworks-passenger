@@ -1,4 +1,4 @@
-define :passenger_web_app do
+define :passenger_nginx_app do
   deploy = params[:deploy]
   application = params[:application]
 
