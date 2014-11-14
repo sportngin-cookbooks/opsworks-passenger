@@ -7,8 +7,8 @@ override[:nginx][:gzip_comp_level] = "8"
 
 
 # Custom Nginx package with passenger module
-default[:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
-default[:custom_package][:source] = nil
+default[:nginx][:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
+default[:nginx][:custom_package][:source] = nil
 
 
 # Default Site

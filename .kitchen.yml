@@ -20,8 +20,9 @@ provisioner:
     rails_env: 'test'
     opsworks:
       ruby_version: '1.9.3'
-    custom_package:
-      source: https://s3.amazonaws.com/sportngin-packages/public/nginx-1.2.9-passenger1.amzn1.x86_64.rpm
+    nginx:
+      custom_package:
+        source: https://s3.amazonaws.com/sportngin-packages/public/nginx-1.2.9-passenger1.amzn1.x86_64.rpm
 
 platforms:
   - name: amazon-2014.10
