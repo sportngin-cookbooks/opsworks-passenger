@@ -9,8 +9,8 @@ define :passenger_nginx_app do
     rails_env deploy[:rails_env]
     mounted_at deploy[:mounted_at]
     ssl_certificate_ca deploy[:ssl_certificate_ca]
-    http_port deploy[:http_port] || 80
-    ssl_port deploy[:ssl_port] || 443
+    http_port deploy[:http_port] || 81
+    ssl_port deploy[:ssl_port] || 444
     ssl_support deploy[:ssl_support] || false
     cookbook "opsworks-passenger"
     template "nginx_site.erb"
