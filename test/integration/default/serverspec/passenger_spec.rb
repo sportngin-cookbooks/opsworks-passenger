@@ -1,18 +1,18 @@
 require 'spec_helper'
 
-describe port(80) do
+describe port(81) do
   it { should be_listening }
 end
 
-describe command('curl -I localhost') do
+describe command('curl -I localhost:81') do
   its(:stdout) { should match "200 OK" }
 end
 
-describe command('curl localhost') do
+describe command('curl localhost:81') do
   its(:stdout) { should match "Test Rack App" }
 end
 
-describe command('curl localhost/static.txt') do
+describe command('curl localhost:81/static.txt') do
   its(:stdout) { should match "Static" }
 end
 

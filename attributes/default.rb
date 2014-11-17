@@ -10,13 +10,6 @@ override[:nginx][:gzip_comp_level] = "8"
 default[:nginx][:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
 default[:nginx][:custom_package][:source] = nil
 
-
-# Default Site
-data_dir = "#{`rpm --eval '%{_datadir}' | tr -d '\n'`}/nginx"
-default[:nginx][:default_site][:enable] = true
-default[:nginx][:default_site][:root_dir] = "#{data_dir}/html"
-
-
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
 default[:ruby_wrapper][:ruby_binary] = node[:languages][:ruby][:ruby_bin]
