@@ -1,3 +1,4 @@
+# curl-devel is a dependency for building passenger nginx extensions
 package "curl-devel"
 
 gem_package "passenger" do
