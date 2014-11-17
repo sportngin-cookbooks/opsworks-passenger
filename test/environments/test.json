@@ -1,0 +1,55 @@
+{
+  "name": "test",
+  "default_attributes": {
+    "deploy": {
+      "test_app": {
+        "ssl_support": false,
+        "application": "test_app",
+        "database": {
+        },
+        "ssl_certificate_ca": null,
+        "migrate": false,
+        "deploy_to": "/srv/test-www/test_rack_app",
+        "environment": {
+        },
+        "scm": {
+          "scm_type": "other"
+        },
+        "ssl_certificate_key": null,
+        "rails_env": "test",
+        "auto_bundle_on_deploy": false,
+        "environment_variables": {
+        },
+        "ssl_certificate": null,
+        "restart_command": null,
+        "symlinks": {
+          "log": "log",
+          "system": "public/system",
+          "pids": "tmp/pids"
+        },
+        "deploying_user": null,
+        "application_type": "other",
+        "memcached": {
+          "port": 11211,
+          "host": null
+        },
+        "symlink_before_migrate": {
+          "config/database.yml": "config/database.yml",
+          "config/memcached.yml": "config/memcached.yml"
+        },
+        "sleep_before_restart": 0,
+        "mounted_at": null,
+        "domains": [
+          "localhost"
+        ],
+        "document_root": "public"
+      }
+    }
+  },
+  "json_class": "Chef::Environment",
+  "description": "",
+  "cookbook_versions": {},
+  "chef_type": "environment"
+}
+
+

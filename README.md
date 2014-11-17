@@ -1,5 +1,7 @@
 # opsworks-passenger cookbook
 
+[![Build Status](https://travis-ci.org/sportngin-cookbooks/opsworks-passenger.svg?branch=master)](https://travis-ci.org/sportngin-cookbooks/opsworks-passenger)
+
 # Requirements
 
 # Usage
@@ -10,4 +12,4 @@
 
 # Author
 
-Author:: YOUR_NAME (<YOUR_EMAIL>)
+Author:: Sport Ngin Platform Operations (<platform-ops@sportngin.com>)

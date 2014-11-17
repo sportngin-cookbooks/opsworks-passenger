@@ -6,4 +6,9 @@ description      'Installs/Configures passenger app server with Nginx web server
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
-supports :redhat
+supports 'amazon'
+
+# opsworks-cookbooks
+depends 'deploy'
+depends 'scm_helper'
+depends 'nginx'

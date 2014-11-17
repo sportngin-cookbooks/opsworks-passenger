@@ -1,17 +1,55 @@
 ---
+<% if fog_file = File.expand_path('~/.fog') and File.exists?(fog_file)
+  fog_file = YAML.load_file(fog_file)
+  ENV['AWS_ACCESS_KEY_ID'] ||= fog_file.fetch('travis-ci', {})['aws_access_key_id']
+  ENV['AWS_SECRET_ACCESS_KEY'] ||= fog_file.fetch('travis-ci', {})['aws_secret_access_key']
+  ENV['AWS_KEYPAIR_NAME'] ||= fog_file.fetch('travis-ci', {})['aws_keypair_name']
+  ENV['EC2_SSH_KEY_PATH'] ||= 'ec2.pem'
+end %>
 driver:
-  name: vagrant
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
+  require_chef_omnibus: "11.4.4"
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
+  environments_path: ./test/environments
+  attributes:
+    test_kitchen: true
+    rails_env: 'test'
+    opsworks:
+      ruby_version: '1.9.3'
+    nginx:
+      custom_package:
+        source: https://s3.amazonaws.com/sportngin-packages/public/nginx-1.2.9-passenger1.amzn1.x86_64.rpm
 
 platforms:
-  - name: centos-6.6
+  - name: amazon-2014.10
+    driver_plugin: ec2
     driver_config:
-      require_chef_omnibus: "11.4"
+      ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+      username: ec2-user
+      image_id: ami-0e289766
+      region: us-east-1
+      availability_zone: us-east-1b
+      security_group_ids: ['ci-testing']
+      interface: public
+      tags:
+        Name: <%= "#{ENV['CI'] ? 'travis-ci' : ENV['USER']}-opsworks-passenger-kitchen" %>
+        Env: public
 
 suites:
   - name: default
+    provisioner:
+      client_rb:
+        environment: test
     run_list:
-      - recipe[opsworks-passenger::default]
+      - recipe[ruby]
+      - recipe[opsworks-passenger::setup]
+      - recipe[opsworks-passenger::test-setup]
+      - recipe[opsworks-passenger::deploy]
     attributes:
+      nginx:
+        default_site:
+          enable: true

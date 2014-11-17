@@ -1,8 +1,2 @@
-#
-# Cookbook Name:: opsworks-passenger
-# Recipe:: default
-#
-# Copyright (C) 2014 YOUR_NAME
-# 
-# All rights reserved - Do Not Redistribute
-#
+include_recipe "opsworks-passenger::setup"
+include_recipe "opsworks-passenger::deploy"

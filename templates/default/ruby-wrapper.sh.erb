@@ -1,0 +1,14 @@
+#!/bin/sh
+# A wrapper around calls to the ruby binary with memory configuration and custom environment variables for use by
+# passenger application server.
+# Managed by cookbook: https://github.com/sportngin-cookbooks/opsworks-passenger
+
+<% @extra_env_vars.each do |key, value| %>
+export <%= "#{key}=#{value}" %>
+<% end %>
+
+export RUBY_HEAP_MIN_SLOTS=<%= @heap_min_slots %>
+export RUBY_GC_MALLOC_LIMIT=<%= @gc_malloc_limit %>
+export RUBY_HEAP_FREE_MIN=<%= @heap_free_min %>
+
+exec "<%= @ruby_binary %>" "$@"

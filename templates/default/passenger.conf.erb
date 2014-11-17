@@ -1,0 +1,23 @@
+passenger_root <%= @root %>;
+passenger_ruby <%= @ruby %>;
+
+passenger_min_instances <%= @config[:min_instances] %>;
+passenger_max_instances_per_app <%= @config[:max_instances_per_app] %>;
+passenger_max_pool_size <%= @config[:max_pool_size] %>;
+passenger_spawn_method <%= @config[:spawn_method] %>;
+passenger_pool_idle_time <%= @config[:pool_idle_time] %>;
+passenger_max_requests <%= @config[:max_requests] %>;
+passenger_log_level <%= @config[:log_level] %>;
+
+<% unless @config[:default_user].nil? %>
+passenger_default_user <%= @config[:default_user] %>;
+<% end %>
+
+<% unless @config[:default_group].nil? %>
+passenger_default_group <%= @config[:default_group] %>;
+<% end %>
+
+<% unless @config[:friendly_error_pages].nil? %>
+passenger_friendly_error_pages <%= @config[:friendly_error_pages] %>;
+<% end %>
+
