@@ -13,7 +13,7 @@ remote_file "#{node[:nginx][:custom_package][:package_location]}#{package_file}"
   group "root"
 end
 
-rpm_package "nginx" do
+package "nginx" do
   source "#{node[:nginx][:custom_package][:package_location]}#{package_file}"
   not_if "nginx -v | grep #{node[:nginx][:version]}"
 end

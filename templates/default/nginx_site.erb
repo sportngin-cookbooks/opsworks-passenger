@@ -29,16 +29,6 @@ server {
     rack_env <%= @params[:rails_env] %>;
   }
 
-  # Block all svn access
-  if ($request_uri ~* ^.*\.svn.*$) {
-     return 404;
-  }
-  
-  # Block all git access
-  if ($request_uri ~* ^.*\.git.*$) {
-     return 404;
-  }
-  
   location /nginx_status {
     stub_status on;
     access_log off;
@@ -87,16 +77,6 @@ server {
     # Define the rack/rails application environment.
     #
     rack_env <%= @params[:rails_env] %>;
-  }
-
-  # Block all svn access
-  if ($request_uri ~* ^.*\.svn.*$) {
-     return 404;
-  }
-  
-  # Block all git access
-  if ($request_uri ~* ^.*\.git.*$) {
-     return 404;
   }
 
   include <%= node[:nginx][:dir] %>/shared_server.conf.d/*.conf;
