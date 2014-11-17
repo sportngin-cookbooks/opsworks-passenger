@@ -25,6 +25,7 @@ default[:ruby_wrapper][:extra_env_vars] = {}
 # Passenger
 default[:passenger][:version] = "3.0.21"
 default[:passenger][:root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
+default[:passenger][:ruby] = node[:ruby_wrapper][:install_path]
 
 # http://blog.phusion.nl/2013/03/12/tuning-phusion-passengers-concurrency-settings/
 default[:passenger][:optimize_for] = 'processing'

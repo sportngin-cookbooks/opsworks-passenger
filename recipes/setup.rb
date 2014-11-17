@@ -80,7 +80,7 @@ template "#{node[:nginx][:dir]}/conf.d/passenger.conf" do
   mode   "0644"
   variables(
       :root => node[:passenger][:root],
-      :ruby => node[:ruby_wrapper][:install_path],
+      :ruby => node[:passenger][:ruby],
       :config => node[:passenger]
   )
 end
