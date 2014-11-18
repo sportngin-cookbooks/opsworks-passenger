@@ -12,7 +12,7 @@ default[:nginx][:custom_package][:source] = nil
 
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
-default[:ruby_wrapper][:ruby_binary] = node[:languages][:ruby][:ruby_bin]
+default[:ruby_wrapper][:ruby_binary] = "/usr/local/bin/ruby"
 # Size of a heap slot is 40 bytes. Start heap of app at 125 MB, which results in app memory footprint of around 330MB.
 default[:ruby_wrapper][:heap_min_slots] = 3276800
 # 30 million calls between garbage collection.
