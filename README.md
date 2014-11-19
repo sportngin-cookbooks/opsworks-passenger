@@ -17,8 +17,12 @@ Include this cookbook as a dependency, set package source and add recipes to run
 
 # Attributes
 
+Attributes of note:
 - `node[:nginx][:custom_package][:source]` - URL to fetch Nginx package from compiled with passenger and any other custom modules.
 - `node[:passenger][:optimize_for]` - Set to 'processing' or 'blocking_io' to optimize min and max processes accordingly.
+
+See attributes source for full list of configuration options.
+
 # Recipes
 
 - `setup` - Install and configure nginx and passenger. This should be run in OpsWorks setup event.
