@@ -20,6 +20,6 @@ describe command('nginx -V') do
   its(:stdout) { should match 'passenger'}
 end
 
-describe command('curl localhost') do
+describe command('curl localhost/tacos/') do
   its(:stdout) { should match 'tacos' }
 end
