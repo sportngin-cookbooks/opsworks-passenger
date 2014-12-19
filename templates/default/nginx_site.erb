@@ -10,6 +10,11 @@ server {
       return 503;
       break;
     }
+  <% if @params[:try_static_files] %>
+    try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>;
+  }
+  location @app_<%= @application_name %> {
+  <% end %>
     # Turn on the passenger Nginx helper for this location.
     passenger_enabled on;
 
@@ -32,6 +37,7 @@ server {
     #
     rack_env <%= @params[:rails_env] %>;
   }
+
 
   error_page 503 /maintenance.html;
   location = /maintenance.html {
@@ -68,11 +74,17 @@ server {
 
   root   <%= @application[:absolute_document_root] %>;
 
+
   location / {
     if ($maintenance) {
       return 503;
       break;
     }
+  <% if @params[:try_static_files] %>
+    try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>;
+  }
+  location @app_<%= @application_name %>_ssl {
+  <% end %>
     # Turn on the passenger Nginx helper for this location.
     passenger_enabled on;
 

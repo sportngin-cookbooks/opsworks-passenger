@@ -14,6 +14,9 @@ default[:nginx][:prefix_dir] = "/usr/share/nginx"
 default[:nginx][:serve_maintenance_page] = false
 default[:nginx][:maintenance_file] = "#{node[:nginx][:prefix_dir]}/html/maintenance.html"
 
+# Try static files for request before sending to passenger web application.
+default[:nginx][:try_static_files] = false
+
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
 default[:ruby_wrapper][:ruby_binary] = "/usr/local/bin/ruby"
