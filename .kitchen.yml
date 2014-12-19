@@ -4,7 +4,7 @@
   ENV['AWS_ACCESS_KEY_ID'] ||= fog_file.fetch('travis-ci', {})['aws_access_key_id']
   ENV['AWS_SECRET_ACCESS_KEY'] ||= fog_file.fetch('travis-ci', {})['aws_secret_access_key']
   ENV['AWS_KEYPAIR_NAME'] ||= fog_file.fetch('travis-ci', {})['aws_keypair_name']
-  ENV['EC2_SSH_KEY_PATH'] ||= 'ec2.pem'
+  ENV['EC2_SSH_KEY_PATH'] ||= File.expand_path('~/.ssh/id_rsa_kitchen_ec2')
 end %>
 driver:
   aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
@@ -13,24 +13,59 @@ driver:
   require_chef_omnibus: "11.4.4"
 
 provisioner:
-  name: chef_zero
-  environments_path: ./test/environments
+  name: chef_solo
   attributes:
     test_kitchen: true
     rails_env: 'test'
     opsworks:
       ruby_version: '1.9.3'
+      ruby_stack: "ruby"
     nginx:
       custom_package:
         source: https://s3.amazonaws.com/sportngin-packages/public/nginx-1.2.9-passenger1.amzn1.x86_64.rpm
+    deploy:
+      test_app:
+        ssl_support: false
+        application: "test_app"
+        database: {}
+        ssl_certificate_ca: null
+        migrate: false
+        deploy_to: "/srv/test-www/test_rack_app"
+        environment: {}
+        scm:
+          scm_type: "other"
+        ssl_certificate_key: null
+        rails_env: "test"
+        auto_bundle_on_deploy: false
+        environment_variables: {}
+        ssl_certificate: null
+        restart_command: null
+        symlinks:
+          log: "log"
+          system: "public/system"
+          pids: "tmp/pids"
+        deploying_user: null
+        application_type: "other"
+        memcached:
+          port: 11211
+          host: null
+        symlink_before_migrate:
+          config/database.yml: "config/database.yml"
+          config/memcached.yml: "config/memcached.yml"
+        sleep_before_restart: 0
+        mounted_at: null
+        domains:
+          - "localhost"
+        document_root: "public"
 
 platforms:
-  - name: amazon-2014.10
+  - name: amazon
     driver_plugin: ec2
     driver_config:
       ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
       username: ec2-user
-      image_id: ami-0e289766
+      flavor_id: c3.large
+      image_id: ami-0268d56a
       region: us-east-1
       availability_zone: us-east-1b
       security_group_ids: ['ci-testing']
@@ -41,11 +76,9 @@ platforms:
 
 suites:
   - name: default
-    provisioner:
-      client_rb:
-        environment: test
     run_list:
-      - recipe[ruby]
+      - recipe[opsworks_initial_setup]
+      - recipe[dependencies]
       - recipe[opsworks-passenger::setup]
       - recipe[opsworks-passenger::test-setup]
       - recipe[opsworks-passenger::deploy]
@@ -53,3 +86,16 @@ suites:
       nginx:
         default_site:
           enable: true
+
+  - name: maintenance
+    run_list:
+      - recipe[opsworks_initial_setup]
+      - recipe[dependencies]
+      - recipe[opsworks-passenger::setup]
+      - recipe[opsworks-passenger::test-setup]
+      - recipe[opsworks-passenger::deploy]
+    attributes:
+      nginx:
+        default_site:
+          enable: true
+        serve_maintenance_page: true

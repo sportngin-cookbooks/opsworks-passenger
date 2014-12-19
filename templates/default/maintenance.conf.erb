@@ -1,0 +1,3 @@
+# Set to 1 to serve maintenace page. Otherwise, should be set to 0.
+# Triggers conditional rewrite rule in server location blocks.
+set $maintenance <%= @maintenance ? '1' : '0' %>;

@@ -6,6 +6,10 @@ server {
   root   <%= @application[:absolute_document_root] %>;
 
   location / {
+    if ($maintenance) {
+      return 503;
+      break;
+    }
     # Turn on the passenger Nginx helper for this location.
     passenger_enabled on;
 
@@ -27,6 +31,11 @@ server {
     # Define the rack/rails application environment.
     #
     rack_env <%= @params[:rails_env] %>;
+  }
+
+  error_page 503 /maintenance.html;
+  location = /maintenance.html {
+    root html;
   }
 
   location /nginx_status {
@@ -60,6 +69,10 @@ server {
   root   <%= @application[:absolute_document_root] %>;
 
   location / {
+    if ($maintenance) {
+      return 503;
+      break;
+    }
     # Turn on the passenger Nginx helper for this location.
     passenger_enabled on;
 
@@ -81,6 +94,11 @@ server {
     # Define the rack/rails application environment.
     #
     rack_env <%= @params[:rails_env] %>;
+  }
+
+  error_page 503 /maintenance.html;
+  location = /maintenance.html {
+    root html;
   }
 
   include <%= node[:nginx][:dir] %>/shared_server.conf.d/*.conf;
