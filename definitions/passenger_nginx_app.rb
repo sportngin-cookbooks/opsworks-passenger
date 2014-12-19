@@ -12,6 +12,7 @@ define :passenger_nginx_app do
     http_port deploy[:http_port] || 80
     ssl_port deploy[:ssl_port] || 443
     ssl_support deploy[:ssl_support] || false
+    try_static_files node[:nginx][:try_static_files]
     cookbook "opsworks-passenger"
     template "nginx_site.erb"
     deploy deploy

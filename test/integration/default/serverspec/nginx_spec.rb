@@ -7,7 +7,6 @@ end
 describe service('nginx') do
   it { should be_enabled }
   it { should be_running }
-  # it { should be_monitored_by('monit') }
 end
 
 describe command('nginx -V') do
@@ -22,4 +21,8 @@ end
 describe command('curl -i localhost/system/maintenance.html') do
   its(:stdout) { should_not match /503 Service Temporarily Unavailable/ }
   its(:stdout) { should_not match /<div id="maintenance">/ }
+end
+
+describe command('curl localhost/tacos.txt') do
+  its(:stdout) { should_not match "yum" }
 end

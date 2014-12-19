@@ -99,3 +99,16 @@ suites:
         default_site:
           enable: true
         serve_maintenance_page: true
+
+  - name: try_static_files
+    run_list:
+      - recipe[opsworks_initial_setup]
+      - recipe[dependencies]
+      - recipe[opsworks-passenger::setup]
+      - recipe[opsworks-passenger::test-setup]
+      - recipe[opsworks-passenger::deploy]
+    attributes:
+      nginx:
+        default_site:
+          enable: true
+        try_static_files: true
