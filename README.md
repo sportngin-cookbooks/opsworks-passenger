@@ -19,7 +19,8 @@ Include this cookbook as a dependency, set package source and add recipes to run
 
 Attributes of note:
 - `node[:nginx][:custom_package][:source]` - URL to fetch Nginx package from compiled with passenger and any other custom modules.
-- `node[:passenger][:optimize_for]` - Set to 'processing' or 'blocking_io' to optimize min and max processes accordingly.
+- `node[:passenger][:optimize_for]` - Set to 'processing' or 'blocking_io' to optimize min and max processes accordingly. Defaults to `processing`.
+- `node[:nginx][:try_static_files]` - Have nginx serve static files for request before deferring to Passenger application. Defaults to `false`.
 
 See attributes source for full list of configuration options.
 
@@ -27,6 +28,7 @@ See attributes source for full list of configuration options.
 
 - `setup` - Install and configure nginx and passenger. This should be run in OpsWorks setup event.
 - `deploy` - Add new passenger enabled nginx site. This should be run in OpsWorks deploy event.
+- `maintenance` - Toggle serving of temporary static maintenance page with `node[:nginx][:serve_maintenance_page]`.
 
 # Author
 
