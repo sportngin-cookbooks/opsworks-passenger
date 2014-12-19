@@ -5,10 +5,14 @@ override[:nginx][:client_max_body_size] = "100M"
 override[:nginx][:gzip_http_version] = "1.1"
 override[:nginx][:gzip_comp_level] = "8"
 
-
 # Custom Nginx package with passenger module
 default[:nginx][:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
 default[:nginx][:custom_package][:source] = nil
+
+# Static maintenance page
+default[:nginx][:prefix_dir] = "/usr/share/nginx"
+default[:nginx][:serve_maintenance_page] = false
+default[:nginx][:maintenance_file] = "#{node[:nginx][:prefix_dir]}/html/maintenance.html"
 
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"

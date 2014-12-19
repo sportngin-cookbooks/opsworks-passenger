@@ -1,5 +1,7 @@
-# curl-devel is a dependency for building passenger nginx extensions
+# Install dependencies for building passenger nginx extensions
+include_recipe "build-essential"
 package "curl-devel"
+package "zlib-devel"
 
 gem_package "passenger" do
   version node["passenger"]["version"]
@@ -58,6 +60,15 @@ template "#{node[:nginx][:dir]}/shared_server.conf.d/shared.conf" do
   group "root"
   mode 0644
 end
+
+cookbook_file "#{node[:nginx][:prefix_dir]}/html/maintenance.html" do
+  source "maintenance.html"
+  group "root"
+  owner "root"
+  mode 0644
+end
+include_recipe "opsworks-passenger::maintenance"
+
 
 template node[:ruby_wrapper][:install_path] do
   source "ruby-wrapper.sh.erb"

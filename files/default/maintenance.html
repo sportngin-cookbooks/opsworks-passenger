@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <style type="text/css">
+        <!--
+        body {
+            font-family: "Lucida Grande", verdana, geneva, helvetica, arial, sans;
+            font-size: 12px;
+            line-height: 140%;
+            margin: 25px;
+            width: 400px;
+            background-color: #fff;
+            text-align: center;
+            width: 95%;
+        }
+
+        #maintenance {
+            background-image: url(http://assets.ngin.com/maintenance/maintenance-sportngin.jpg);
+            width: 402px;
+            height: 152px;
+            margin: 50px auto 25px;
+            padding: 152px 0 0 0;
+            overflow: hidden;
+            height: 0px !important;
+            height /**/: 152px;
+        }
+        -->
+    </style>
+</head>
+<body>
+
+<div id="maintenance"></div>
+
+<div id="statusMessage"></div>
+
+<script src="https://statuspage-production.s3.amazonaws.com/se-v2.js"></script>
+<script>
+    var sp = new StatusPage.page({page: 'mzdc3bw4w96k'});
+    sp.status({
+        success: function (data) {
+            var html = data.status.description + '. ';
+            html += '<a href="' + data.page.url + '" target="_blank">Check out our status page for more details.</a>';
+            document.getElementById('statusMessage').innerHTML = html
+        }
+    });
+</script>
+
+</body>
+</html>

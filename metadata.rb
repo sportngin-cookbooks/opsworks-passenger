@@ -8,7 +8,10 @@ version          '0.1.0'
 
 supports 'amazon'
 
+depends 'build-essential'
+
 # opsworks-cookbooks
 depends 'deploy'
+depends 'ruby'
 depends 'scm_helper'
 depends 'nginx'

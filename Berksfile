@@ -10,6 +10,8 @@ def unused_cookbook(name)
   cookbook name, path: dir
 end
 
+cookbook 'build-essential'
+
 opsworks_cookbook 'ruby'
 group :ruby_dependencies do
   opsworks_cookbook 'dependencies'
