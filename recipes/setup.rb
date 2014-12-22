@@ -55,7 +55,7 @@ template "#{node[:nginx][:dir]}/nginx.conf" do
 end
 
 opsworks_passenger_nginx_server_conf "security" do
-  source "nginx_security.conf.erb"
+  source "security.conf.erb"
 end
 
 cookbook_file "#{node[:nginx][:prefix_dir]}/html/maintenance.html" do

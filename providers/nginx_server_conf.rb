@@ -9,7 +9,7 @@ use_inline_resources
 action :create do
   Chef::Log.info "Creating Nginx #{new_resource.scope} server conf for #{new_resource.name}."
   t = template "#{node[:nginx][:dir]}/#{new_resource.scope}_server.conf.d/#{new_resource.name}.conf" do
-    cookbook new_resource.cookbook
+    cookbook new_resource.cookbook_name.to_s
     source new_resource.source
     mode '0644'
     variables(new_resource.variables)
