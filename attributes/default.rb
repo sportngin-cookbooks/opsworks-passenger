@@ -17,6 +17,10 @@ default[:nginx][:maintenance_file] = "#{node[:nginx][:prefix_dir]}/html/maintena
 # Try static files for request before sending to passenger web application.
 default[:nginx][:try_static_files] = false
 
+# Mark the Nginx server blocks as the `default_server` for name-based virtual hosting.
+# Note, only a single site/app is supported on a server when this is enabled due to lack of app-scoped configuration in OpsWorks with Chef 11.4.
+default[:nginx][:default_server] = false
+
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
 default[:ruby_wrapper][:ruby_binary] = "/usr/local/bin/ruby"

@@ -100,7 +100,7 @@ suites:
           enable: true
         serve_maintenance_page: true
 
-  - name: try_static_files
+  - name: multi_site_html_app
     run_list:
       - recipe[opsworks_initial_setup]
       - recipe[dependencies]
@@ -112,3 +112,4 @@ suites:
         default_site:
           enable: true
         try_static_files: true
+        default_server: true

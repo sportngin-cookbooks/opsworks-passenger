@@ -1,5 +1,5 @@
 server {
-  listen   <%= @params[:http_port] %>;
+  listen   <%= @params[:http_port] %><%= " default_server" if @params[:default_server] %>;
   server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
 
@@ -57,7 +57,7 @@ server {
 
 <% if @application[:ssl_support] %>
 server {
-  listen   <%= @params[:ssl_port] %>;
+  listen   <%= @params[:ssl_port] %><%= " default_server" if @params[:default_server] %>;
   server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
 
