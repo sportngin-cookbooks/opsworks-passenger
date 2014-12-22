@@ -4,7 +4,7 @@ package "curl-devel"
 package "zlib-devel"
 
 gem_package "passenger" do
-  version node["passenger"]["version"]
+  version node[:passenger][:version]
   not_if "gem list | egrep 'passenger \\(#{node[:passenger][:version]}'"
 end
 

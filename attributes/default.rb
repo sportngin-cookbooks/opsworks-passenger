@@ -39,7 +39,7 @@ default[:passenger][:optimize_for] = 'processing'
 default[:passenger][:avg_app_process_memory] = 100 # Mb
 case node[:passenger][:optimize_for]
   when 'blocking_io'
-    total_mem = (node['memory']['total'][0..-3].to_i / 1024) # Mb
+    total_mem = (node[:memory][:total][0..-3].to_i / 1024) # Mb
     max_app_processes = ((total_mem * 0.75) / default[:passenger][:avg_app_process_memory]).to_i
     min_app_processes = [1, (max_app_processes / 2).to_i].max
   when 'processing'

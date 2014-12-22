@@ -4,8 +4,7 @@ node[:deploy].each do |application, deploy|
     deploy_data deploy
   end
 
-  passenger_nginx_app do
-    application application
+  opsworks_passenger_nginx_app application do
     deploy deploy
   end
 

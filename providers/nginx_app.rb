@@ -1,7 +1,17 @@
-define :passenger_nginx_app do
-  deploy = params[:deploy]
-  application = params[:application]
+def whyrun_supported?
+  true
+end
 
+use_inline_resources
+
+action :create do
+  deploy = new_resource.deploy
+  Chef::Log.info "Creating Nginx site for Passenger application #{deploy[:application]}"
+
+  service "nginx" do
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
+  end
   nginx_web_app deploy[:application] do
     docroot deploy[:absolute_document_root]
     server_name deploy[:domains].first
@@ -18,4 +28,6 @@ define :passenger_nginx_app do
     deploy deploy
     application deploy
   end
+
+  new_resource.updated_by_last_action(true)
 end
