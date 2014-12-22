@@ -1,3 +1,5 @@
+# nginx_app provider manages the Nginx site for a app
+
 def whyrun_supported?
   true
 end

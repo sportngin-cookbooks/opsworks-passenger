@@ -54,11 +54,8 @@ template "#{node[:nginx][:dir]}/nginx.conf" do
   mode 0644
 end
 
-template "#{node[:nginx][:dir]}/shared_server.conf.d/shared.conf" do
-  source "nginx_shared.conf.erb"
-  owner "root"
-  group "root"
-  mode 0644
+opsworks_passenger_nginx_server_conf "security" do
+  source "nginx_security.conf.erb"
 end
 
 cookbook_file "#{node[:nginx][:prefix_dir]}/html/maintenance.html" do
@@ -85,11 +82,8 @@ template node[:ruby_wrapper][:install_path] do
   )
 end
 
-template "#{node[:nginx][:dir]}/conf.d/passenger.conf" do
+opsworks_passenger_nginx_conf "passenger" do
   source "passenger.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
   variables(
       :root => node[:passenger][:root],
       :ruby => node[:passenger][:ruby],
