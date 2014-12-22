@@ -8,7 +8,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_0eaf77dade2f_key -iv $encrypted_0eaf77dade2f_iv
   -in ec2.pem.enc -out ec2.pem -d
 - chmod 600 ec2.pem
-script: bundle exec kitchen test -d always
+script: bundle exec rake
 language: ruby
 bundler_args: --without development --deployment --jobs=3 --retry=3
 cache: bundler

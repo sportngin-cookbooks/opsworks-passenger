@@ -97,7 +97,17 @@ GEM
     fog-xml (0.1.1)
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
+    foodcritic (4.0.0)
+      erubis
+      gherkin (~> 2.11)
+      nokogiri (~> 1.5)
+      rake
+      rufus-lru (~> 1.0)
+      treetop (~> 1.4)
+      yajl-ruby (~> 1.1)
     formatador (0.2.5)
+    gherkin (2.12.2)
+      multi_json (~> 1.3)
     gssapi (1.0.3)
       ffi (>= 1.0.1)
     gyoku (1.2.2)
@@ -155,7 +165,9 @@ GEM
       mixlib-shellout (~> 1.2)
       systemu (~> 2.6.4)
       wmi-lite (~> 1.0)
+    polyglot (0.3.5)
     rack (1.5.2)
+    rake (10.4.2)
     rbzip2 (0.2.0)
     rdoc (4.2.0)
       json (~> 1.4)
@@ -198,6 +210,7 @@ GEM
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
     rubyntlm (0.1.1)
+    rufus-lru (1.0.5)
     safe_yaml (1.0.4)
     savon (0.9.5)
       akami (~> 1.0)
@@ -226,6 +239,8 @@ GEM
     thor (0.18.1)
     timers (4.0.1)
       hitimes
+    treetop (1.5.3)
+      polyglot (~> 0.3)
     uuidtools (2.1.5)
     varia_model (0.3.2)
       buff-extensions (~> 0.2)
@@ -251,6 +266,7 @@ DEPENDENCIES
   chef (~> 11.4.4)
   fog (~> 1.24.0)
   fog-core (~> 1.24.0)
+  foodcritic
   kitchen-ec2
   serverspec
   test-kitchen
