@@ -26,7 +26,7 @@ action :create do
     ssl_support deploy[:ssl_support] || false
     try_static_files node[:nginx][:try_static_files]
     cookbook "opsworks-passenger"
-    template "nginx_site.erb"
+    template "nginx_site.conf.erb"
     deploy deploy
     application deploy
   end
