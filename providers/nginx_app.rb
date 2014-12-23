@@ -25,6 +25,7 @@ action :create do
     ssl_port deploy[:ssl_port] || 443
     ssl_support deploy[:ssl_support] || false
     try_static_files node[:nginx][:try_static_files]
+    default_server node[:nginx][:default_server]
     cookbook "opsworks-passenger"
     template "nginx_site.conf.erb"
     deploy deploy

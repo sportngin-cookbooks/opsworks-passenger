@@ -23,3 +23,17 @@ end
 describe command('curl localhost/tacos/') do
   its(:stdout) { should match 'tacos' }
 end
+
+describe file('/etc/nginx/sites-enabled/test_app') do
+  it { should be_file }
+  its(:content) { should include ' default_server;' }
+  its(:content) { should include 'try_files  $uri $uri/index.html $uri.html @app_test_app;'}
+end
+
+describe command('echo "127.0.0.1 tacos.org" | sudo tee -a /etc/hosts') do
+  its(:exit_status) { should eq 0 }
+  describe command('curl tacos.org/tacos/') do
+    its(:stdout) { should match 'tacos' }
+  end
+end
+
