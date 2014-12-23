@@ -1,3 +1,5 @@
+# nginx_app provider manages the Nginx site for a app
+
 def whyrun_supported?
   true
 end
@@ -25,7 +27,7 @@ action :create do
     try_static_files node[:nginx][:try_static_files]
     default_server node[:nginx][:default_server]
     cookbook "opsworks-passenger"
-    template "nginx_site.erb"
+    template "nginx_site.conf.erb"
     deploy deploy
     application deploy
   end
