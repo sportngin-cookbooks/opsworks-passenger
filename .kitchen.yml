@@ -84,6 +84,7 @@ suites:
       - recipe[opsworks-passenger::deploy]
     attributes:
       nginx:
+        worker_rlimit_nofile: 4096
         default_site:
           enable: true
 
