@@ -47,7 +47,6 @@ end
 
 
 template "#{node[:nginx][:dir]}/nginx.conf" do
-  cookbook "nginx"
   source "nginx.conf.erb"
   owner "root"
   group "root"

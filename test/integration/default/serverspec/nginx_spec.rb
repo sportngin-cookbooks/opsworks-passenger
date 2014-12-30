@@ -13,6 +13,13 @@ describe command('nginx -V') do
   its(:stdout) { should match 'passenger'}
 end
 
+describe file('/etc/nginx/nginx.conf') do
+  it { should be_file }
+  its(:content) { should include 'use epoll' }
+  its(:content) { should include 'worker_rlimit_nofile 4096' }
+  its(:content) { should include 'gzip_types application/x-javascript application/xhtml+xml application/xml application/xml+rss text/css text/javascript text/plain text/xml application/json;' }
+end
+
 describe file('/etc/nginx/shared_server.conf.d/maintenance.conf') do
   it { should be_file }
   its(:content) { should match /set \$maintenance 0;/}
