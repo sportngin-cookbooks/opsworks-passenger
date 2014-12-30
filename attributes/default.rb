@@ -4,6 +4,12 @@ override[:nginx][:worker_processes] = node[:cpu][:total] * 3
 override[:nginx][:client_max_body_size] = "100M"
 override[:nginx][:gzip_http_version] = "1.1"
 override[:nginx][:gzip_comp_level] = "8"
+base_gzip_types = node[:nginx][:gzip_types]
+override[:nginx][:gzip_types] = (base_gzip_types << %w[application/json])
+
+# Custom configuration variables
+default[:nginx][:worker_rlimit_nofile] = nil
+default[:nginx][:connection_processing_method] = "epoll"
 
 # Custom Nginx package with passenger module
 default[:nginx][:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
