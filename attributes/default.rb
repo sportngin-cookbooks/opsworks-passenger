@@ -66,9 +66,13 @@ default[:passenger][:pool_idle_time] = 300
 default[:passenger][:max_requests] = 0
 default[:passenger][:gem_binary] = nil
 default[:passenger][:spawner_idle_time] = 0
+default[:passenger][:rails_framework_spawner_idle_time] = 0
+default[:passenger][:rails_app_spawner_idle_time] = 0
 default[:passenger][:default_user] = nil
 default[:passenger][:default_group] = nil
 default[:passenger][:log_level] = 0
 default[:passenger][:friendly_error_pages] = nil
+default[:passenger][:passenger_buffers] = '8 16k'
+default[:passenger][:passenger_buffer_size] = '32k'
 
 
