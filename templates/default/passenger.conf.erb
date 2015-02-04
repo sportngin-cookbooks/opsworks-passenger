@@ -6,6 +6,8 @@ passenger_max_instances_per_app <%= @config[:max_instances_per_app] %>;
 passenger_max_pool_size <%= @config[:max_pool_size] %>;
 passenger_spawn_method <%= @config[:spawn_method] %>;
 passenger_pool_idle_time <%= @config[:pool_idle_time] %>;
+rails_framework_spawner_idle_time <%= @config[:rails_framework_spawner_idle_time] %>;
+rails_app_spawner_idle_time <%= @config[:rails_app_spawner_idle_time] %>;
 passenger_max_requests <%= @config[:max_requests] %>;
 passenger_log_level <%= @config[:log_level] %>;
 
@@ -21,3 +23,5 @@ passenger_default_group <%= @config[:default_group] %>;
 passenger_friendly_error_pages <%= @config[:friendly_error_pages] %>;
 <% end %>
 
+passenger_buffers <%= @config[:passenger_buffers] %>;
+passenger_buffer_size <%= @config[:passenger_buffer_size] %>;
