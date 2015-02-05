@@ -5,13 +5,13 @@ package "zlib-devel"
 
 gem_package "passenger" do
   version node[:passenger][:version]
-  not_if "gem list | egrep 'passenger \\(#{node[:passenger][:version]}'"
+  not_if "gem list | egrep 'passenger (#{node[:passenger][:version]}'"
 end
 
 bash "Setup Nginx integration in passenger gem" do
   code "rake nginx RELEASE=yes"
-  cwd node[:passenger][:root]
-  not_if { File.directory? "#{node[:passenger][:root]}/agents" }
+  cwd node[:passenger][:conf]["passenger_root"]
+  not_if { ::File.directory? "#{node[:passenger][:conf]["passenger_root"]}/agents" }
 end
 
 include_recipe "opsworks-passenger::custom_package"
@@ -84,9 +84,7 @@ end
 opsworks_passenger_nginx_conf "passenger" do
   source "passenger.conf.erb"
   variables(
-      :root => node[:passenger][:root],
-      :ruby => node[:passenger][:ruby],
-      :config => node[:passenger]
+      :passenger_conf => node[:passenger][:conf]
   )
 end
 
