@@ -28,9 +28,7 @@ end
 opsworks_passenger_nginx_conf "passenger" do
   source "passenger.conf.erb"
   variables(
-      :root => node[:passenger][:root],
-      :ruby => node[:passenger][:ruby],
-      :config => node[:passenger]
+      :passenger_conf => node[:passenger][:conf]
   )
 end
 
