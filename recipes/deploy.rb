@@ -34,6 +34,18 @@ opsworks_passenger_nginx_conf "passenger" do
   )
 end
 
+template "#{node[:nginx][:dir]}/nginx.conf" do
+  source "nginx.conf.erb"
+  owner "root"
+  group "root"
+  mode 0644
+end
+
+include_recipe "nginx::service"
+service "nginx" do
+  action [ :enable, :start ]
+end
+
 node[:deploy].each do |application, deploy|
 
   opsworks_deploy_user do
