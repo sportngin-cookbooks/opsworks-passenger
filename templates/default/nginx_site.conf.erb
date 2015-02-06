@@ -81,7 +81,7 @@ server {
       break;
     }
   <% if @params[:try_static_files] %>
-    try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>;
+    try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>_ssl;
   }
   location @app_<%= @application_name %>_ssl {
   <% end %>
