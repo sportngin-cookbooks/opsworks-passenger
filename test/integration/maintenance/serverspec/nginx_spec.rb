@@ -18,7 +18,7 @@ describe file('/etc/nginx/sites-enabled/test_app') do
   its(:content) { should match <<CONF
 server {
   listen   80;
-  server_name  localhost ip-10-31-101-246;
+  server_name  localhost #{`hostname | tr -d '\n'`};
   access_log  /var/log/nginx/localhost.access.log;
 
   root   /srv/test-www/test_rack_app/current/public/;
