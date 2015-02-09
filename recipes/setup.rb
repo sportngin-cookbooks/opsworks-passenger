@@ -5,13 +5,14 @@ package "zlib-devel"
 
 gem_package "passenger" do
   version node[:passenger][:version]
-  not_if "gem list | egrep 'passenger (#{node[:passenger][:version]}'"
+  not_if "/usr/local/bin/gem list | grep 'passenger (#{node[:passenger][:version]}'"
 end
 
 bash "Setup Nginx integration in passenger gem" do
   code "rake nginx RELEASE=yes"
   cwd node[:passenger][:conf]["passenger_root"]
-  not_if { ::File.directory? "#{node[:passenger][:conf]["passenger_root"]}/agents" }
+  action :nothing
+  subscribes :run, 'gem_package[passenger]', :immediately
 end
 
 include_recipe "opsworks-passenger::custom_package"

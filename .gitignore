@@ -17,3 +17,5 @@ bin/*
 .kitchen.local.yml
 *.pem
 .unused-cookbook
+test-kitchen.sportngin.com.crt
+test-kitchen.sportngin.com.key

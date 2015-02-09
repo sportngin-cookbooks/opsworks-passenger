@@ -17,6 +17,7 @@ provisioner:
   attributes:
     test_kitchen: true
     rails_env: 'test'
+    ssh_users: {}
     opsworks:
       ruby_version: '1.9.3'
       ruby_stack: "ruby"
@@ -25,20 +26,22 @@ provisioner:
         source: https://s3.amazonaws.com/sportngin-packages/public/nginx-1.2.9-passenger1.amzn1.x86_64.rpm
     deploy:
       test_app:
-        ssl_support: false
+        ssl_support: true
+        ssl_certificate: |
+<%= File.read('test-kitchen.sportngin.com.crt').gsub(/^/, "            ") %>
+        ssl_certificate_key: |
+<%= File.read('test-kitchen.sportngin.com.key').gsub(/^/, "            ") %>
+        ssl_certificate_ca: null
         application: "test_app"
         database: {}
-        ssl_certificate_ca: null
         migrate: false
         deploy_to: "/srv/test-www/test_rack_app"
         environment: {}
         scm:
           scm_type: "other"
-        ssl_certificate_key: null
         rails_env: "test"
         auto_bundle_on_deploy: false
         environment_variables: {}
-        ssl_certificate: null
         restart_command: null
         symlinks:
           log: "log"
@@ -55,7 +58,7 @@ provisioner:
         sleep_before_restart: 0
         mounted_at: null
         domains:
-          - "localhost"
+          - "test-kitchen.sportngin.com"
         document_root: "public"
 
 platforms:
@@ -78,6 +81,7 @@ suites:
   - name: default
     run_list:
       - recipe[opsworks_initial_setup]
+      - recipe[ssh_users]
       - recipe[dependencies]
       - recipe[opsworks-passenger::setup]
       - recipe[opsworks-passenger::test-setup]
@@ -91,6 +95,7 @@ suites:
   - name: maintenance
     run_list:
       - recipe[opsworks_initial_setup]
+      - recipe[ssh_users]
       - recipe[dependencies]
       - recipe[opsworks-passenger::setup]
       - recipe[opsworks-passenger::test-setup]
@@ -104,6 +109,7 @@ suites:
   - name: multi_site_html_app
     run_list:
       - recipe[opsworks_initial_setup]
+      - recipe[ssh_users]
       - recipe[dependencies]
       - recipe[opsworks-passenger::setup]
       - recipe[opsworks-passenger::test-setup]
