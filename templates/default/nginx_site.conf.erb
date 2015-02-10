@@ -1,16 +1,16 @@
 server {
-  listen   <%= @params[:http_port] %><%= " default_server" if @params[:default_server] %>;
-  server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
-  access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
+  listen   <%= @http_port %><%= " default_server" if @default_server %>;
+  server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>.access.log;
 
-  root   <%= @application[:absolute_document_root] %>;
+  root   <%= @deploy[:absolute_document_root] %>;
 
   location / {
     if ($maintenance) {
       return 503;
       break;
     }
-  <% if @params[:try_static_files] %>
+  <% if @try_static_files %>
     try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>;
   }
   location @app_<%= @application_name %> {
@@ -35,7 +35,7 @@ server {
     #
     # Define the rack/rails application environment.
     #
-    rack_env <%= @params[:rails_env] %>;
+    rack_env <%= @rails_env %>;
   }
 
 
@@ -55,24 +55,24 @@ server {
   include <%= node[:nginx][:dir] %>/http_server.conf.d/*.conf;
 }
 
-<% if @application[:ssl_support] %>
+<% if @deploy[:ssl_support] %>
 server {
-  listen   <%= @params[:ssl_port] %><%= " default_server" if @params[:default_server] %>;
-  server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
-  access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
+  listen   <%= @ssl_port %><%= " default_server" if @default_server %>;
+  server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>-ssl.access.log;
 
   ssl on;
-  ssl_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.crt;
-  ssl_certificate_key /etc/nginx/ssl/<%= @application[:domains].first %>.key;
-  <% if @application[:ssl_certificate_ca] -%>
-  ssl_client_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.ca;
+  ssl_certificate /etc/nginx/ssl/<%= @deploy[:domains].first %>.crt;
+  ssl_certificate_key /etc/nginx/ssl/<%= @deploy[:domains].first %>.key;
+  <% if @deploy[:ssl_certificate_ca] -%>
+  ssl_client_certificate /etc/nginx/ssl/<%= @deploy[:domains].first %>.ca;
   <% end -%>
 
-  <% @application.fetch(:nginx, {}).fetch(:extra_ssl_server_options, {}).each do |config_key, value| %>
+  <% @deploy.fetch(:nginx, {}).fetch(:extra_ssl_server_options, {}).each do |config_key, value| %>
     <%= config_key %> <%= value %>;
   <% end %>
 
-  root   <%= @application[:absolute_document_root] %>;
+  root   <%= @deploy[:absolute_document_root] %>;
 
 
   location / {
@@ -80,7 +80,7 @@ server {
       return 503;
       break;
     }
-  <% if @params[:try_static_files] %>
+  <% if @try_static_files %>
     try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>_ssl;
   }
   location @app_<%= @application_name %>_ssl {
@@ -105,7 +105,7 @@ server {
     #
     # Define the rack/rails application environment.
     #
-    rack_env <%= @params[:rails_env] %>;
+    rack_env <%= @rails_env %>;
   }
 
   error_page 503 /maintenance.html;
