@@ -91,6 +91,7 @@ suites:
         worker_rlimit_nofile: 4096
         default_site:
           enable: true
+        restart_on_deploy: true
 
   - name: maintenance
     run_list:
@@ -105,6 +106,7 @@ suites:
         default_site:
           enable: true
         serve_maintenance_page: true
+        restart_on_deploy: true
 
   - name: multi_site_html_app
     run_list:
@@ -120,3 +122,16 @@ suites:
           enable: true
         try_static_files: true
         default_server: true
+        restart_on_deploy: true
+
+  - name: restart_on_deploy
+    run_list:
+      - recipe[opsworks_initial_setup]
+      - recipe[ssh_users]
+      - recipe[dependencies]
+      - recipe[opsworks-passenger::setup]
+      - recipe[opsworks-passenger::test-setup]
+      - recipe[opsworks-passenger::deploy]
+    attributes:
+      nginx:
+        restart_on_deploy: false

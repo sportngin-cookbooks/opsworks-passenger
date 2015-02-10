@@ -9,6 +9,7 @@ use_inline_resources
 action :create do
   deploy = new_resource.deploy
   application_name = deploy[:application]
+  restart = node[:nginx][:restart_on_deploy]
   Chef::Log.info "Creating Nginx site for Passenger application #{deploy[:application]}"
 
   service "nginx" do
@@ -38,7 +39,7 @@ action :create do
         :try_static_files => node[:nginx][:try_static_files],
         :default_server => node[:nginx][:default_server]
     )
-    if ::File.exists?("#{node[:nginx][:dir]}/sites-enabled/#{application_name}")
+    if restart && ::File.exists?("#{node[:nginx][:dir]}/sites-enabled/#{application_name}")
       notifies :reload, "service[nginx]", :delayed
     end
   end
@@ -55,7 +56,9 @@ action :create do
     mode '0600'
     source "ssl.key.erb"
     variables :key => deploy[:ssl_certificate]
-    notifies :restart, "service[nginx]"
+    if restart
+      notifies :restart, "service[nginx]"
+    end
     only_if do
       deploy[:ssl_support]
     end
@@ -66,7 +69,9 @@ action :create do
     mode '0600'
     source "ssl.key.erb"
     variables :key => deploy[:ssl_certificate_key]
-    notifies :restart, "service[nginx]"
+    if restart
+      notifies :restart, "service[nginx]"
+    end
     only_if do
       deploy[:ssl_support]
     end
@@ -77,7 +82,9 @@ action :create do
     mode '0600'
     source "ssl.key.erb"
     variables :key => deploy[:ssl_certificate_ca]
-    notifies :restart, "service[nginx]"
+    if restart
+      notifies :restart, "service[nginx]"
+    end
     only_if do
       deploy[:ssl_support] && deploy[:ssl_certificate_ca]
     end
@@ -93,13 +100,17 @@ action :create do
   if new_resource.enable
     execute "nxensite #{application_name}" do
       command "/usr/sbin/nxensite #{application_name}"
-      notifies :reload, "service[nginx]"
+      if restart
+        notifies :reload, "service[nginx]"
+      end
       not_if do ::File.symlink?("#{node[:nginx][:dir]}/sites-enabled/#{application_name}") end
     end
   else
     execute "nxdissite #{application_name}" do
       command "/usr/sbin/nxdissite #{application_name}"
-      notifies :reload, "service[nginx]"
+      if restart
+        notifies :reload, "service[nginx]"
+      end
       only_if do ::File.symlink?("#{node[:nginx][:dir]}/sites-enabled/#{application_name}") end
     end
   end
