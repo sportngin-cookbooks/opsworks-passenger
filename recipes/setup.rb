@@ -46,3 +46,8 @@ end
   end
 end
 
+unless node[:nginx][:restart_on_deploy]
+  log "Initial setup and deploy, notifying nginx to reload at end of run." do
+    notifies :reload, "service[nginx]", :delayed
+  end
+end
