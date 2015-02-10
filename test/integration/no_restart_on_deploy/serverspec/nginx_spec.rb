@@ -1,17 +1,34 @@
-require 'spec_helper'
+require 'serverspec'
+
+# Required by serverspec
+set :backend, :exec
+
+# Fix root's PATH for serverspec resources like package and service to work and because /usr/local/bin is missing??
+set :path, '/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$PATH'
+ENV['PATH']="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:#{ENV['PATH']}"
+
+#TODO: validate it does not reload or restart nginx on 2nd deploy.
+
+describe package('nginx') do
+  it { should be_installed.with_version('1.2.9') }
+end
+
+describe service('nginx') do
+  it { should be_enabled }
+  it { should be_running }
+end
+
+describe command('nginx -V') do
+  its(:stdout) { should match 'passenger'}
+end
 
 describe port(80) do
   it { should be_listening }
 end
 
-describe file('/etc/nginx/shared_server.conf.d/maintenance.conf') do
-  it { should be_file }
-  its(:content) { should match /set \$maintenance 1;/}
-end
-
-describe command('curl -i localhost/system/maintenance.html') do
-  its(:stdout) { should match /503 Service Temporarily Unavailable/ }
-  its(:stdout) { should match /<div id="maintenance">/ }
+describe command('curl localhost') do
+  its(:stdout) { should match 'Test Rack App' }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/etc/nginx/sites-enabled/test_app') do

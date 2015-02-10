@@ -5,7 +5,7 @@ task :lint do
   FoodCritic::Rake::LintTask.new do |t|
     t.options = {
         :fail_tags => ['correctness'],
-        :tags => ['~FC001']
+        :tags => ['correctness ~FC001']
     }
   end
   Rake::Task['foodcritic'].invoke

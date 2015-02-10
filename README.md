@@ -22,6 +22,7 @@ Attributes of note:
 - `node[:passenger][:optimize_for]` - Set to 'processing' or 'blocking_io' to optimize min and max processes accordingly. Defaults to `processing`.
 - `node[:nginx][:try_static_files]` - Have nginx serve static files for request before deferring to Passenger application. Defaults to `false`.
 - `node[:passenger][:conf]` - String key based hash of name value pairs to write to passenger configuration for nginx. Pairs with nil value will be omitted.
+- `node[:nginx][:restart_on_deploy]` - Whether to restart/reload nginx on a deploy.  Defaults to false for a rolling restart deploy strategy.
 
 See attributes source for full list of configuration options.
 
