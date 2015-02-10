@@ -7,6 +7,8 @@ set :backend, :exec
 set :path, '/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$PATH'
 ENV['PATH']="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:#{ENV['PATH']}"
 
+#TODO: validate it does not reload or restart nginx on 2nd deploy.
+
 describe package('nginx') do
   it { should be_installed.with_version('1.2.9') }
 end
@@ -21,11 +23,12 @@ describe command('nginx -V') do
 end
 
 describe port(80) do
-  it { should_not be_listening }
+  it { should be_listening }
 end
 
 describe command('curl localhost') do
-  its(:exit_status) { should eq 7 }
+  its(:stdout) { should match 'Test Rack App' }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/etc/nginx/sites-enabled/test_app') do
