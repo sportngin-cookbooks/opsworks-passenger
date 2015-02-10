@@ -124,7 +124,7 @@ suites:
         default_server: true
         restart_on_deploy: true
 
-  - name: restart_on_deploy
+  - name: no_restart_on_deploy
     run_list:
       - recipe[opsworks_initial_setup]
       - recipe[ssh_users]
