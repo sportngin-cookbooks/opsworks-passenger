@@ -18,8 +18,8 @@ end
 
 describe command('passenger-status') do
   cpus = `grep -c ^processor /proc/cpuinfo`
-  its(:stdout) { should match /max\s*=\s#{cpus.to_i * 2}/ }
-  its(:stdout) { should match /count\s*=\s#{cpus.to_i * 2}/ }
+  its(:stdout) { should match /Max.*\s*:\s#{cpus.to_i * 2}/ }
+  its(:stdout) { should match /Processes\s*:\s#{cpus.to_i * 2}/ }
 end
 
 describe command('passenger-memory-stats') do
@@ -31,7 +31,7 @@ describe file('/etc/nginx/conf.d/passenger.conf') do
   its(:content) { should match <<CONF
 # https://github.com/phusion/passenger/tree/stable-3.0/doc
 
-passenger_root /usr/local/lib/ruby/gems/1.9.1/gems/passenger-3.0.21;
+passenger_root /usr/local/lib/ruby/gems/1.9.1/gems/passenger-5.0.7;
 passenger_ruby /usr/local/bin/ruby-wrapper.sh;
 passenger_min_instances 4;
 passenger_max_pool_size 4;
@@ -40,15 +40,13 @@ passenger_spawn_method smart-lv2;
 passenger_pool_idle_time 300;
 passenger_max_requests 0;
 
-rails_framework_spawner_idle_time 0;
-rails_app_spawner_idle_time 0;
+passenger_max_preloader_idle_time 0;
 
 
 passenger_log_level 0;
 
 passenger_buffers 8 16k;
 passenger_buffer_size 32k;
-passenger_use_global_queue on;
 CONF
   }
 end
