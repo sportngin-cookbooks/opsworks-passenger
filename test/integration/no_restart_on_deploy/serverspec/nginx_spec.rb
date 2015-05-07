@@ -71,7 +71,7 @@ server {
 
   error_page 503 /maintenance.html;
   location = /maintenance.html {
-    root html;
+    root /usr/share/nginx/html;
   }
 
   location /nginx_status {
@@ -128,7 +128,7 @@ server {
 
   error_page 503 /maintenance.html;
   location = /maintenance.html {
-    root html;
+    root /usr/share/nginx/html;
   }
 
   include /etc/nginx/shared_server.conf.d/*.conf;
