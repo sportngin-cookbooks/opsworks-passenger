@@ -8,7 +8,7 @@ set :path, '/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$PATH'
 ENV['PATH']="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:#{ENV['PATH']}"
 
 describe package('nginx') do
-  it { should be_installed.with_version('1.2.9') }
+  it { should be_installed.with_version('1.8.0') }
 end
 
 describe service('nginx') do
@@ -58,18 +58,18 @@ server {
     passenger_enabled on;
 
     # These don't seem to work in stack, which is in the http {} block
-    passenger_set_cgi_param HTTP_X_FORWARDED_FOR   $proxy_add_x_forwarded_for;
-    passenger_set_cgi_param HTTP_X_REAL_IP         $remote_addr;
-    passenger_set_cgi_param HTTP_HOST              $http_host;
-    passenger_set_cgi_param HTTP_X_FORWARDED_PROTO $scheme;
+    passenger_set_header HTTP_X_FORWARDED_FOR   $proxy_add_x_forwarded_for;
+    passenger_set_header HTTP_X_REAL_IP         $remote_addr;
+    passenger_set_header HTTP_HOST              $http_host;
+    passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
-    passenger_set_cgi_param HTTP_X_REQUEST_START "t=${msec}";
+    passenger_set_header HTTP_X_REQUEST_START "t=${msec}";
 
     # Rails 3.0 apps that use rack-ssl use SERVER_PORT to generate a https
     # URL. Since internally nginx runs on a different port, the generated
     # URL looked like this: https://host:81/ instead of https://host/
     # By setting SERVER_PORT this is avoided.
-    passenger_set_cgi_param SERVER_PORT            80;
+    passenger_set_header SERVER_PORT            80;
 
     #
     # Define the rack/rails application environment.
@@ -80,7 +80,7 @@ server {
 
   error_page 503 /maintenance.html;
   location = /maintenance.html {
-    root html;
+    root /usr/share/nginx/html;
   }
 
   location /nginx_status {
@@ -119,18 +119,18 @@ server {
     passenger_enabled on;
 
     # These don't seem to work in stack, which is in the http {} block
-    passenger_set_cgi_param HTTP_X_FORWARDED_FOR   $proxy_add_x_forwarded_for;
-    passenger_set_cgi_param HTTP_X_REAL_IP         $remote_addr;
-    passenger_set_cgi_param HTTP_HOST              $http_host;
-    passenger_set_cgi_param HTTP_X_FORWARDED_PROTO $scheme;
+    passenger_set_header HTTP_X_FORWARDED_FOR   $proxy_add_x_forwarded_for;
+    passenger_set_header HTTP_X_REAL_IP         $remote_addr;
+    passenger_set_header HTTP_HOST              $http_host;
+    passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
-    passenger_set_cgi_param HTTP_X_REQUEST_START "t=${msec}";
+    passenger_set_header HTTP_X_REQUEST_START "t=${msec}";
 
     # Rails 3.0 apps that use rack-ssl use SERVER_PORT to generate a https
     # URL. Since internally nginx runs on a different port, the generated
     # URL looked like this: https://host:81/ instead of https://host/
     # By setting SERVER_PORT this is avoided.
-    passenger_set_cgi_param SERVER_PORT            443;
+    passenger_set_header SERVER_PORT            443;
 
     #
     # Define the rack/rails application environment.
@@ -140,7 +140,7 @@ server {
 
   error_page 503 /maintenance.html;
   location = /maintenance.html {
-    root html;
+    root /usr/share/nginx/html;
   }
 
   include /etc/nginx/shared_server.conf.d/*.conf;

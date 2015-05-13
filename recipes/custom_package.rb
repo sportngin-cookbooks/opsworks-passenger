@@ -18,3 +18,11 @@ package "nginx" do
   not_if "nginx -v | grep #{node[:nginx][:version]}"
 end
 
+# We are deleting default files packaged with the nginx rpm
+file "/etc/nginx/conf.d/default.conf" do
+  action :delete
+end
+
+file "/etc/nginx/conf.d/example_ssl.conf" do
+  action :delete
+end

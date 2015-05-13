@@ -23,7 +23,7 @@ provisioner:
       ruby_stack: "ruby"
     nginx:
       custom_package:
-        source: https://s3.amazonaws.com/sportngin-ops-files/nginx-1.2.9-passenger2.amzn1.x86_64.rpm
+        source: https://s3.amazonaws.com/sportngin-ops-files/nginx-1.8.0-passenger1.amzn1.ngx.x86_64.rpm
     deploy:
       test_app:
         ssl_support: true
