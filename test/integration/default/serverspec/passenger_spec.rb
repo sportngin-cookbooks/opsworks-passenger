@@ -29,7 +29,7 @@ end
 describe file('/etc/nginx/conf.d/passenger.conf') do
   it { should be_file }
   its(:content) { should match <<CONF
-# https://github.com/phusion/passenger/tree/stable-3.0/doc
+# https://github.com/phusion/passenger/tree/stable-5.0/doc
 
 passenger_root /usr/local/lib/ruby/gems/1.9.1/gems/passenger-5.0.7;
 passenger_ruby /usr/local/bin/ruby-wrapper.sh;
