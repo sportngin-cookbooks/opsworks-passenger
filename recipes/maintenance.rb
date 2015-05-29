@@ -6,7 +6,7 @@ end
 
 opsworks_passenger_nginx_server_conf "maintenance" do
   source "maintenance.conf.erb"
-  if node[:nginx][:restart_on_deploy]
+  if node[:nginx][:serve_maintenance_page] || node[:nginx][:restart_on_deploy]
     notifies :reload, "service[nginx]", :delayed
   end
   variables({ :maintenance => node[:nginx][:serve_maintenance_page] })
