@@ -21,3 +21,7 @@ script: bundle exec kitchen test -d always $TEST_SUITE
 language: ruby
 bundler_args: --without development --deployment --jobs=3 --retry=3
 cache: bundler
+branches:
+  only:
+    - master
+
