@@ -3,13 +3,10 @@
   fog_file = YAML.load_file(fog_file)
   ENV['AWS_ACCESS_KEY_ID'] ||= fog_file.fetch('travis-ci', {})['aws_access_key_id']
   ENV['AWS_SECRET_ACCESS_KEY'] ||= fog_file.fetch('travis-ci', {})['aws_secret_access_key']
-  ENV['AWS_KEYPAIR_NAME'] ||= fog_file.fetch('travis-ci', {})['aws_keypair_name']
+  ENV['AWS_SSH_KEY_ID'] ||= fog_file.fetch('travis-ci', {})['aws_keypair_name']
   ENV['EC2_SSH_KEY_PATH'] ||= File.expand_path('~/.ssh/id_rsa_kitchen_ec2')
 end %>
 driver:
-  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
   require_chef_omnibus: "11.4.4"
 
 provisioner:
@@ -21,6 +18,23 @@ provisioner:
     opsworks:
       ruby_version: '1.9.3'
       ruby_stack: "ruby"
+      instance:
+        id: "2d4446c7-2c8e-4a82-835c-8af1cc2793dc"
+        hostname: "ngin-test-kitchen"
+        instance_type: "t2.medium"
+        public_dns_name: "localhost"
+        private_dns_name: "localhost"
+        ip: "127.0.0.1"
+        private_ip: "127.0.0.1"
+        architecture: "x86_64"
+        layers:
+          - "rails-passenger-app"
+        backends: 8
+        aws_instance_id: "i-75995884"
+        region: "us-east-1"
+        availability_zone: "us-east-1b"
+        subnet_id: "subnet-f8196fd0"
+        infrastructure_class: "ec2"
     nginx:
       custom_package:
         source: https://s3.amazonaws.com/sportngin-ops-files/nginx-1.8.0-passenger1.amzn1.ngx.x86_64.rpm
@@ -64,10 +78,8 @@ provisioner:
 platforms:
   - name: amazon
     driver_plugin: ec2
-    driver_config:
-      ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
-      username: ec2-user
-      flavor_id: c3.large
+    driver:
+      instance_type: c3.large
       image_id: ami-0268d56a
       region: us-east-1
       availability_zone: us-east-1b
@@ -76,6 +88,9 @@ platforms:
       tags:
         Name: <%= "#{ENV['CI'] ? 'travis-ci' : ENV['USER']}-opsworks-passenger-kitchen" %>
         Env: public
+    transport:
+        ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+        username: ec2-user
 
 suites:
   - name: default
