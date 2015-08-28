@@ -42,7 +42,7 @@ default[:ruby_wrapper][:extra_env_vars] = {}
 
 
 # Passenger
-default[:passenger][:version] = "5.0.7"
+default[:passenger][:version] = "5.0.16"
 default[:passenger][:conf][:passenger_root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
 default[:passenger][:conf][:passenger_ruby] = node[:ruby_wrapper][:install_path]
 
