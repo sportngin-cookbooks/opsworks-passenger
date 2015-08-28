@@ -16,10 +16,6 @@ describe service('nginx') do
   it { should be_running }
 end
 
-describe command('nginx -V') do
-  its(:stdout) { should match 'passenger'}
-end
-
 describe command('curl localhost/tacos/') do
   its(:stdout) { should match 'tacos' }
 end

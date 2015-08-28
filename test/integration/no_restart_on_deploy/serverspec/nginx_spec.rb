@@ -18,10 +18,6 @@ describe service('nginx') do
   it { should be_running }
 end
 
-describe command('nginx -V') do
-  its(:stdout) { should match 'passenger'}
-end
-
 describe port(80) do
   it { should be_listening }
 end
