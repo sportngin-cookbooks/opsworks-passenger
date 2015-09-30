@@ -1,5 +1,5 @@
 # Overrides of opsworks nginx attributes.
-# gi
+
 override[:opsworks][:deploy_user][:group] = 'nginx'
 override[:nginx][:worker_processes] = node[:cpu][:total] * 3
 override[:nginx][:client_max_body_size] = "100M"
