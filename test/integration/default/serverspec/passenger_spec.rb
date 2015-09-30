@@ -31,12 +31,12 @@ describe file('/etc/nginx/conf.d/passenger.conf') do
   its(:content) { should match <<CONF
 # https://github.com/phusion/passenger/tree/stable-5.0/doc
 
-passenger_root /usr/local/lib/ruby/gems/1.9.1/gems/passenger-5.0.7;
+passenger_root /usr/local/lib/ruby/gems/1.9.1/gems/passenger-5.0.16;
 passenger_ruby /usr/local/bin/ruby-wrapper.sh;
 passenger_min_instances 4;
 passenger_max_pool_size 4;
 passenger_max_instances_per_app 0;
-passenger_spawn_method smart-lv2;
+passenger_spawn_method smart;
 passenger_pool_idle_time 300;
 passenger_max_requests 0;
 
