@@ -9,6 +9,11 @@ describe service('nginx') do
   it { should be_running }
 end
 
+describe command('passenger-status') do
+  its(:stdout) { should match 'Phusion_Passenger'}
+  its(:stdout) { should match 'nginx/1.8.0'}
+end
+
 describe file('/etc/nginx/nginx.conf') do
   it { should be_file }
   its(:content) { should include 'use epoll' }
@@ -35,7 +40,7 @@ describe file('/etc/nginx/sites-enabled/test_app') do
 server {
   listen   80;
   server_name  test-kitchen.sportngin.com #{`hostname | tr -d '\n'`};
-  access_log  /var/log/nginx/test-kitchen.sportngin.com.access.log;
+  access_log  /var/log/nginx/test-kitchen.sportngin.com.access.log main;
 
   root   /srv/test-www/test_rack_app/current/public/;
 
@@ -87,7 +92,7 @@ server {
 server {
   listen   443;
   server_name  test-kitchen.sportngin.com #{`hostname | tr -d '\n'`};
-  access_log  /var/log/nginx/test-kitchen.sportngin.com-ssl.access.log;
+  access_log  /var/log/nginx/test-kitchen.sportngin.com-ssl.access.log main;
 
   ssl on;
   ssl_certificate /etc/nginx/ssl/test-kitchen.sportngin.com.crt;

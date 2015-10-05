@@ -1,4 +1,5 @@
 # Overrides of opsworks nginx attributes.
+
 override[:opsworks][:deploy_user][:group] = 'nginx'
 override[:nginx][:worker_processes] = node[:cpu][:total] * 3
 override[:nginx][:client_max_body_size] = "100M"
@@ -28,6 +29,12 @@ default[:nginx][:try_static_files] = false
 default[:nginx][:default_server] = false
 
 default[:nginx][:restart_on_deploy] = false
+default[:nginx][:log_format] = {
+    "main" => %q['$remote_addr - $remote_user [$time_local]  '
+                '"$request" $status $body_bytes_sent '
+                '"$http_referer" "$http_user_agent"']
+}
+default[:nginx][:log_format_name] = 'main'
 
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
