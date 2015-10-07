@@ -6,7 +6,7 @@ override[:nginx][:client_max_body_size] = "100M"
 override[:nginx][:gzip_http_version] = "1.1"
 override[:nginx][:gzip_comp_level] = "8"
 base_gzip_types = node[:nginx][:gzip_types]
-override[:nginx][:gzip_types] = (base_gzip_types + %w[application/json])
+override[:nginx][:gzip_types] = (base_gzip_types + %w[application/json application/javascript])
 
 # Custom configuration variables
 default[:nginx][:worker_rlimit_nofile] = nil
