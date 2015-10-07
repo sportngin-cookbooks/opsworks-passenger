@@ -18,7 +18,7 @@ describe file('/etc/nginx/nginx.conf') do
   it { should be_file }
   its(:content) { should include 'use epoll' }
   its(:content) { should include 'worker_rlimit_nofile 4096' }
-  its(:content) { should include 'gzip_types application/x-javascript application/xhtml+xml application/xml application/xml+rss text/css text/javascript text/plain text/xml application/json;' }
+  its(:content) { should include 'gzip_types application/x-javascript application/xhtml+xml application/xml application/xml+rss text/css text/javascript text/plain text/xml application/json application/javascript;' }
 end
 
 describe file('/etc/nginx/shared_server.conf.d/maintenance.conf') do
