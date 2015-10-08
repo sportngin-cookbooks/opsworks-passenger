@@ -48,6 +48,13 @@ access_log	<%= node[:nginx][:log_dir] %>/access.log<%=" #{node[:nginx][:log_form
 
   server_names_hash_bucket_size <%= node[:nginx][:server_names_hash_bucket_size] %>;
 
+<% if node[:nginx][:proxy_read_timeout] -%>
+  proxy_read_timeout <%= node[:nginx][:proxy_read_timeout] %>;
+<% end -%>
+<% if node[:nginx][:proxy_send_timeout] -%>
+  proxy_send_timeout <%= node[:nginx][:proxy_send_timeout] %>;
+<% end -%>
+
   include <%= node[:nginx][:dir] %>/conf.d/*.conf;
   include <%= node[:nginx][:dir] %>/sites-enabled/*;
 }
