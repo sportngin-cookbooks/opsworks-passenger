@@ -36,7 +36,7 @@ default[:nginx][:log_format] = {
 }
 default[:nginx][:log_format_name] = 'main'
 
-default[:nginx][:status][:access] = %w[127.0.0.1]
+default[:nginx][:status][:allow] = %w[127.0.0.1]
 
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
