@@ -11,6 +11,7 @@ override[:nginx][:gzip_types] = (base_gzip_types + %w[application/json applicati
 # Custom configuration variables
 default[:nginx][:worker_rlimit_nofile] = nil
 default[:nginx][:connection_processing_method] = "epoll"
+default[:nginx][:send_timeout] = "60"
 
 # Custom Nginx package with passenger module
 default[:nginx][:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"

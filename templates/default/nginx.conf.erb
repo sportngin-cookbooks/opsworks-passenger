@@ -54,7 +54,9 @@ access_log	<%= node[:nginx][:log_dir] %>/access.log<%=" #{node[:nginx][:log_form
 <% if node[:nginx][:proxy_send_timeout] -%>
   proxy_send_timeout <%= node[:nginx][:proxy_send_timeout] %>;
 <% end -%>
-
+<% if node[:nginx][:send_timeout] -%>
+    send_timeout <%= node[:nginx][:send_timeout] %>;
+<% end -%>
   include <%= node[:nginx][:dir] %>/conf.d/*.conf;
   include <%= node[:nginx][:dir] %>/sites-enabled/*;
 }
