@@ -21,7 +21,7 @@ describe file('/etc/nginx/nginx.conf') do
   its(:content) { should include 'gzip_types application/x-javascript application/xhtml+xml application/xml application/xml+rss text/css text/javascript text/plain text/xml application/json application/javascript;' }
   its(:content) { should include 'proxy_read_timeout 60' }
   its(:content) { should include 'proxy_send_timeout 60' }
-  its(:content) { should include 'send_timeout 60' }
+  its(:content) { should include 'send_timeout 60s' }
 end
 
 describe file('/etc/nginx/shared_server.conf.d/maintenance.conf') do
