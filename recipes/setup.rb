@@ -3,6 +3,11 @@ include_recipe "build-essential"
 package "curl-devel"
 package "zlib-devel"
 
+gem_package "rack" do
+  version node[:passenger][:rack_version]
+  not_if "/usr/local/bin/gem list | grep 'rack (#{node[:passenger][:rack_version]}'"
+end
+
 gem_package "passenger" do
   version node[:passenger][:version]
   not_if "/usr/local/bin/gem list | grep 'passenger (#{node[:passenger][:version]}'"
