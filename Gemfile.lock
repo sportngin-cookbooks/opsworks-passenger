@@ -216,5 +216,4 @@ DEPENDENCIES
   foodcritic
   kitchen-ec2
   serverspec
-  specinfra
   test-kitchen

@@ -6,7 +6,6 @@ end
 
 gem 'berkshelf', '~>3'
 gem 'test-kitchen'
-gem 'specinfra'
 gem 'serverspec'
 gem 'kitchen-ec2'
 gem 'foodcritic'
