@@ -4,7 +4,7 @@ group :development do
   gem 'chef', '~>11.4.4'
 end
 
-gem 'berkshelf', '~>3'
+gem 'berkshelf'
 gem 'test-kitchen'
 gem 'serverspec'
 gem 'kitchen-ec2'

@@ -1,4 +1,4 @@
-site :opscode
+source "https://supermarket.chef.io"
 
 %w[agent_version
   apache2
