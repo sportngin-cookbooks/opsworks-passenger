@@ -107,6 +107,10 @@ suites:
         default_site:
           enable: true
         restart_on_deploy: true
+      ruby_wrapper:
+       extra_env_vars:
+        foo: bar
+
 
   - name: maintenance
     run_list:

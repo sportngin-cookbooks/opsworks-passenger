@@ -7,8 +7,4 @@
 export <%= "#{key}=#{value}" %>
 <% end %>
 
-export RUBY_HEAP_MIN_SLOTS=<%= @heap_min_slots %>
-export RUBY_GC_MALLOC_LIMIT=<%= @gc_malloc_limit %>
-export RUBY_HEAP_FREE_MIN=<%= @heap_free_min %>
-
 exec "<%= @ruby_binary %>" "$@"
