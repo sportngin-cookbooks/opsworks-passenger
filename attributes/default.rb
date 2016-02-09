@@ -52,7 +52,7 @@ default[:ruby_wrapper][:extra_env_vars] = {}
 
 
 # Passenger
-default[:passenger][:version] = "5.0.23"
+default[:passenger][:version] = "5.0.16"
 default[:passenger][:rack_version] = "1.6.4" # This is required to support ruby < 2.2 (Rack 2 requires >= 2.2)
 # TODO make passenger root dynamic
 default[:passenger][:conf][:passenger_root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
