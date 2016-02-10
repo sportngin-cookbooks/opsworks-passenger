@@ -12,6 +12,7 @@ override[:nginx][:gzip_types] = (base_gzip_types + %w[application/json applicati
 default[:nginx][:worker_rlimit_nofile] = nil
 default[:nginx][:connection_processing_method] = "epoll"
 default[:nginx][:send_timeout] = "60s"
+default[:nginx][:use_proxy_protocol] = false
 
 # Custom Nginx package with passenger module
 default[:nginx][:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
@@ -89,4 +90,3 @@ default[:passenger][:conf][:passenger_buffer_size] = '32k'
 default[:passenger][:conf][:passenger_user_switching] = nil
 default[:passenger][:conf][:passenger_default_user] = nil
 default[:passenger][:conf][:passenger_default_group] = nil
-
