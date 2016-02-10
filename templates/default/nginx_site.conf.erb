@@ -1,5 +1,5 @@
 server {
-  listen   <%= @http_port %><%= " default_server" if @default_server %><%= " proxy-protocol" if node[:nginx][:use_proxy_protocol] %>;
+  listen   <%= @http_port %><%= " default_server" if @default_server %><%= " proxy_protocol" if node[:nginx][:use_proxy_protocol] %>;
   server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
 
@@ -59,7 +59,7 @@ server {
 
 <% if @deploy[:ssl_support] %>
 server {
-  listen   <%= @ssl_port %><%= " default_server" if @default_server %><%= " proxy-protocol" if node[:nginx][:use_proxy_protocol] %>;
+  listen   <%= @ssl_port %><%= " default_server" if @default_server %><%= " proxy_protocol" if node[:nginx][:use_proxy_protocol] %>;
   server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>-ssl.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
 
