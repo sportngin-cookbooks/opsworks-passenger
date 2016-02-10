@@ -20,7 +20,7 @@ server {
 
     # These don't seem to work in stack, which is in the http {} block
     passenger_set_header HTTP_X_FORWARDED_FOR   <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$proxy_add_x_forwarded_for" %>;
-    passenger_set_header HTTP_X_REAL_IP         <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$remote_addr;" %>;
+    passenger_set_header HTTP_X_REAL_IP         <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$remote_addr" %>;
     passenger_set_header HTTP_HOST              $http_host;
     passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
@@ -92,7 +92,7 @@ server {
 
     # These don't seem to work in stack, which is in the http {} block
     passenger_set_header HTTP_X_FORWARDED_FOR   <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$proxy_add_x_forwarded_for" %>;
-    passenger_set_header HTTP_X_REAL_IP         <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$remote_addr;" %>;
+    passenger_set_header HTTP_X_REAL_IP         <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$remote_addr" %>;
     passenger_set_header HTTP_HOST              $http_host;
     passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
