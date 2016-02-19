@@ -1,0 +1,142 @@
+#!/bin/bash
+#===============================================================================
+script_name="passenger_monitor"
+script_author="James Paterni, Dennis Bell"
+script_version="0.0.6"
+#===============================================================================
+# This script monitors passenger application instances and gracefully restarts
+#   any instances exceeding the configured (real) memory limit
+#
+# * Ensure this script is executable (chmod +x)
+#===============================================================================
+
+target_app=$1
+current_soft_kill_list=/tmp/passenger_soft_kill_list
+new_soft_kill_list=$(mktemp -t passenger_soft_kill_list.XXXXXXXXXXX)
+
+## Default limit - override with -l <limit in MB>
+limit=250
+force_limit=500
+processed_limit=5000
+
+shift
+
+while getopts "l:k:p:" opt; do
+  case $opt in
+    l) limit=$OPTARG ;;
+    k) force_limit=$OPTARG ;;
+    p) processed_limit=$OPTARG ;;
+  esac
+done
+
+# Public: Kill the given Passenger PID
+#
+# If a Passenger worker recieves the USR1 more than once, Passenger (as of
+# 3.0.11) crashes rather than continuing the request. We need to prevent
+# sending a USR1 more than once.
+#
+# pid - the PID to kill
+safely_soft_kill() {
+  pid=$1
+
+  record_soft_killed_pid $pid
+
+  if pid_already_soft_killed $pid; then
+    log_action "Skipping soft kill of $pid. Already sent a soft kill."
+  else
+    passenger-config detach-process $pid
+  fi
+}
+
+# Public: Log the actions of this script
+#
+# message - The message to log
+log_action() {
+  message=$1
+
+  logger -t passenger_monitor -s $message
+}
+
+# Public: Whether the given PID can be safely killed
+#
+# pid - the PID to kill
+pid_already_soft_killed() {
+  pid=$1
+
+  # --quiet surpresses match output (simply returning with success or error)
+  # --no-messages surpresses errors if the file doesn't exist
+  grep --quiet --no-messages $pid $current_soft_kill_list
+}
+
+# Public: Record that we want to kill the given PID
+#
+# pid - the PID to be killed
+record_soft_killed_pid() {
+  pid=$1
+
+  echo $pid >> $new_soft_kill_list
+}
+
+## Get output from passenger-memory-stats, egrep for Rails: OR Rack:.
+## Sed explained:
+##  /MB/!d; - Do not delete lines with MB in them. All others are removed (check for memory output)
+##  s/(^[0-9]+)\s.*(\b[0-9]+)\.[0-9]+\sMB.*MB.*/\1-\2/' ... Explained in segments below...
+##      s/ -- Tell sed that this is a search and replace function.
+##      ^(^[0-9]+)\s* -- Get the pid (First set of numbers at beginning of string).
+##      (\b[0-9]+)\.[0-9]+\sMB\s+ -- Grab the virtual memory for each process. Must begin with a word break (i.e. space), have numbers, a dot, more numbers a space and MB. Only the integer half of the number is grabbed.
+##      (\b[0-9]+)\.[0-9]+\sMB -- same thing for the real memory for each process
+##      .*\/([^\/]+)\/current -- grab the application name out of the path
+##      \1,\2,\3,\4/ -- assembe the selected values into a comma-separated-list, to later be converted into an array
+
+# Create an array variable
+declare -a info
+
+for record in `sudo passenger-memory-stats | egrep -i " R(ails|ack|ubyApp):" | sed -r '/MB/!d;s/(^[0-9]+)\s*(\b[0-9]+)\.[0-9]\sMB\s+(\b[0-9]+)\.[0-9]+\sMB.*\/([^\/]+)\/current(.*)/\1,\2,\3,\4/'`; do
+  
+  # Turn the record into an array, and assign to local variables for clarity
+  info=(`echo ${record//,/ }`)
+  app_pid=${info[0]}
+  app_virt=${info[1]} # reserved for future use
+  app_real=${info[2]}
+  app_name=${info[3]}
+
+  if [[ "$app_name" != "$target_app" ]]; then
+    continue
+  fi
+
+  ## Check the against the force, if it exceeds the memory amount, FORCE KILL IT.
+  if [[ $app_real -gt $force_limit ]]; then
+    log_action "Force Killing PID $app_pid (app $app_name) - memory $app_real MB exceeds $force_limit MB"
+    kill -9 $app_pid
+  ## Check the against the limit, if it exceeds the memory amount, KILL IT.
+  elif [[ $app_real -gt $limit ]]; then
+    log_action "Killing PID $app_pid (app $app_name) - memory $app_real MB exceeds $limit MB"
+    safely_soft_kill $app_pid
+  fi
+done
+
+## Get output from passenger-status
+
+# Create an array variable
+declare -a status
+
+for record in `sudo passenger-status | egrep -i " PID:" | sed -r '/PID/!d;s/\*\s*PID\:\s*([0-9]+)\s+Sessions\:\s+([0-9]+)\s+Processed:\s+([0-9]+)\s+Uptime:\s+(.*)/\1,\2,\3/'`; do
+  
+  # Turn the record into an array, and assign to local variables for clarity
+  status=(`echo ${record//,/ }`)
+  app_pid=${status[0]}
+  app_sess=${status[1]}
+  app_proc=${status[2]}
+
+  ## Check the against the limit, if it exceeds the processed limit, gracefully kill it.
+  if [[ $app_proc -gt $processed_limit ]]; then
+    log_action "Killing PID $app_pid - processed $app_proc exceeds $processed_limit"
+    safely_soft_kill $app_pid
+  fi
+done
+
+# overwrite the list of killed pids with the list that we tried to kill just
+# now. the goal is to prevent an ever-growing list of soft-killed pids, and
+# seems easier than pruning through the list for pids which have already been
+# killed
+mv $new_soft_kill_list $current_soft_kill_list
