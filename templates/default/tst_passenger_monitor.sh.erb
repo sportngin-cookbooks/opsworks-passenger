@@ -1,7 +1,0 @@
-#!/bin/bash
-
-PATH=/usr/local/bin:$PATH
-SOFT_MEMORY_LIMIT=<%= @soft_memory_limit %>
-HARD_MEMORY_LIMIT=<%= @hard_memory_limit %>
-PROCESSED_LIMIT=<%= @processed_limit %>
-/usr/bin/halockrun -nc /tmp/check_passenger_processes-tst.lockrun /usr/local/bin/passenger_monitor ngin -l $SOFT_MEMORY_LIMIT -k $HARD_MEMORY_LIMIT -p $PROCESSED_LIMIT
