@@ -50,6 +50,11 @@ default[:ruby_wrapper][:gc_malloc_limit] = 30000000
 default[:ruby_wrapper][:heap_free_min] = 100000
 default[:ruby_wrapper][:extra_env_vars] = {}
 
+# Passenger Monitor
+default[:passenger][:monitor][:soft_memory_limit] = 250
+default[:passenger][:monitor][:hard_memory_limit] = 500
+default[:passenger][:monitor][:requests_processed_limit] = 5000
+default[:passenger][:monitor][:app_name] = nil
 
 # Passenger
 default[:passenger][:version] = "5.0.16"
