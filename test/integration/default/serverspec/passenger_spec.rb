@@ -26,6 +26,10 @@ describe command('passenger-memory-stats') do
   its(:exit_status) { should eq 0 }
 end
 
+describe file('/usr/local/bin/passenger_monitor') do
+  it { should_not exist }
+end
+
 describe file('/etc/nginx/conf.d/passenger.conf') do
   it { should be_file }
   its(:content) { should match <<CONF
