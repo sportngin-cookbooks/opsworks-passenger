@@ -1,2 +1,2 @@
 deploy_branch: master
-github_repo: sportngin/opsworks-passenger
+github_repo: sportngin-cookbooks/opsworks-passenger
