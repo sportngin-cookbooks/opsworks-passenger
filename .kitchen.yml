@@ -110,7 +110,25 @@ suites:
       ruby_wrapper:
        extra_env_vars:
         foo: bar
-
+        
+  - name: passenger_monitor
+    run_list:
+      - recipe[opsworks_initial_setup]
+      - recipe[ssh_users]
+      - recipe[dependencies]
+      - recipe[opsworks-passenger::setup]
+      - recipe[opsworks-passenger::passenger-monitor]
+      - recipe[opsworks-passenger::test-setup]
+      - recipe[opsworks-passenger::deploy]
+    attributes:
+      passenger:
+        monitor:
+          requests_processed_limit: 20
+          app_name: 'test_app'
+      nginx:
+        default_site:
+          enable: true
+        restart_on_deploy: true
 
   - name: maintenance
     run_list:

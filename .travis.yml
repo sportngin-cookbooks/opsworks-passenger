@@ -10,6 +10,7 @@ env:
     - TEST_SUITE=maintenance
     - TEST_SUITE=multi-site-html-app
     - TEST_SUITE=no-restart-on-deploy
+    - TEST_SUITE=passenger-monitor
 before_install:
 - openssl aes-256-cbc -K $encrypted_0eaf77dade2f_key -iv $encrypted_0eaf77dade2f_iv
   -in test-kitchen.sportngin.com.key.enc -out test-kitchen.sportngin.com.key -d
