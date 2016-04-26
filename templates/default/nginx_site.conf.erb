@@ -99,6 +99,7 @@ server {
     passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
     passenger_set_header HTTP_X_REQUEST_START "t=${msec}";
+    passenger_set_header X-SSL-Protocol $ssl_protocol;
 
     # Rails 3.0 apps that use rack-ssl use SERVER_PORT to generate a https
     # URL. Since internally nginx runs on a different port, the generated
