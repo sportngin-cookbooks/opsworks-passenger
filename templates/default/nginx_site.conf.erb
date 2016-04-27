@@ -60,10 +60,12 @@ server {
 <% if @deploy[:ssl_support] %>
 server {
   listen   <%= @ssl_port %><%= " default_server" if @default_server %>;
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
   server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>-ssl.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
 
   ssl on;
+  ssl_dhparam <%= @dh_key %>;
   ssl_certificate /etc/nginx/ssl/<%= @deploy[:domains].first %>.crt;
   ssl_certificate_key /etc/nginx/ssl/<%= @deploy[:domains].first %>.key;
   <% if @deploy[:ssl_certificate_ca] -%>
@@ -97,6 +99,7 @@ server {
     passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
     passenger_set_header HTTP_X_REQUEST_START "t=${msec}";
+    passenger_set_header X-SSL-Protocol $ssl_protocol;
 
     # Rails 3.0 apps that use rack-ssl use SERVER_PORT to generate a https
     # URL. Since internally nginx runs on a different port, the generated

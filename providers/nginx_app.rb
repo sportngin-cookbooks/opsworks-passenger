@@ -38,21 +38,33 @@ action :create do
         :ssl_support => deploy[:ssl_support] || false,
         :try_static_files => node[:nginx][:try_static_files],
         :default_server => node[:nginx][:default_server],
-        :status => node[:nginx][:status]
+        :status => node[:nginx][:status],
+        :dh_key => node[:nginx][:dh_key]
     )
     if restart && ::File.exists?("#{node[:nginx][:dir]}/sites-enabled/#{application_name}")
       notifies :reload, "service[nginx]", :delayed
     end
   end
 
-  directory "#{node[:nginx][:dir]}/ssl" do
+  directory "#{node[:nginx][:ssl_dir]}" do
     action :create
+    owner "root"
+    group "root"
+    mode 0700
+  end
+
+  execute 'Generate Diffie-Hellman key' do
+    command "openssl dhparam -dsaparam -out #{node[:nginx][:dh_key]} #{node[:nginx][:dh_key_bits]}"
+    creates node[:nginx][:dh_key]
+  end
+
+  file node[:nginx][:dh_key] do
     owner "root"
     group "root"
     mode 0600
   end
 
-  template "#{node[:nginx][:dir]}/ssl/#{deploy[:domains].first}.crt" do
+  template "#{node[:nginx][:ssl_dir]}/#{deploy[:domains].first}.crt" do
     cookbook 'nginx'
     mode '0600'
     source "ssl.key.erb"
@@ -65,7 +77,7 @@ action :create do
     end
   end
 
-  template "#{node[:nginx][:dir]}/ssl/#{deploy[:domains].first}.key" do
+  template "#{node[:nginx][:ssl_dir]}/#{deploy[:domains].first}.key" do
     cookbook 'nginx'
     mode '0600'
     source "ssl.key.erb"
@@ -78,7 +90,7 @@ action :create do
     end
   end
 
-  template "#{node[:nginx][:dir]}/ssl/#{deploy[:domains].first}.ca" do
+  template "#{node[:nginx][:ssl_dir]}/#{deploy[:domains].first}.ca" do
     cookbook 'nginx'
     mode '0600'
     source "ssl.key.erb"

@@ -8,6 +8,11 @@ override[:nginx][:gzip_comp_level] = "8"
 base_gzip_types = node[:nginx][:gzip_types]
 override[:nginx][:gzip_types] = (base_gzip_types + %w[application/json application/javascript])
 
+# SSL configuration
+default[:nginx][:ssl_dir] = "#{node[:nginx][:dir]}/ssl"
+default[:nginx][:dh_key] = "#{node[:nginx][:ssl_dir]}/dhparam.pem"
+default[:nginx][:dh_key_bits] = 4096
+
 # Custom configuration variables
 default[:nginx][:worker_rlimit_nofile] = nil
 default[:nginx][:connection_processing_method] = "epoll"
