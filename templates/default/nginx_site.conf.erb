@@ -2,7 +2,6 @@ server {
   listen   <%= @http_port %><%= " default_server" if @default_server %>;
   server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
-  server_tokens off;
 
   root   <%= @deploy[:absolute_document_root] %>;
 
@@ -64,7 +63,6 @@ server {
   add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
   server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>-ssl.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
-  server_tokens off;
 
   ssl on;
   ssl_dhparam <%= @dh_key %>;
