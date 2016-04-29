@@ -44,6 +44,7 @@ server {
   listen   80 default_server;
   server_name  test-kitchen.sportngin.com #{`hostname | tr -d '\n'`};
   access_log  /var/log/nginx/test-kitchen.sportngin.com.access.log main;
+  server_tokens off;
 
   root   /srv/test-www/test_rack_app/current/public/;
 
@@ -100,6 +101,7 @@ server {
   add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
   server_name  test-kitchen.sportngin.com #{`hostname | tr -d '\n'`};
   access_log  /var/log/nginx/test-kitchen.sportngin.com-ssl.access.log main;
+  server_tokens off;
 
   ssl on;
   ssl_dhparam /etc/nginx/ssl/dhparam.pem;
