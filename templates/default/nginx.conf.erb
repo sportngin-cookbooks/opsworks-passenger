@@ -14,6 +14,9 @@ events {
 }
 
 http {
+  server_tokens off;
+  passenger_show_version_in_header off;
+  
   include       <%= node[:nginx][:dir] %>/mime.types;
   default_type  application/octet-stream;
 
