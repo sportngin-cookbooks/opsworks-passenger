@@ -9,6 +9,7 @@ base_gzip_types = node[:nginx][:gzip_types]
 override[:nginx][:gzip_types] = (base_gzip_types + %w[application/json application/javascript])
 
 # SSL configuration
+default[:nginx][:use_hsts] = false
 default[:nginx][:ssl_dir] = "#{node[:nginx][:dir]}/ssl"
 default[:nginx][:dh_key] = "#{node[:nginx][:ssl_dir]}/dhparam.pem"
 default[:nginx][:dh_key_bits] = 4096
@@ -99,4 +100,3 @@ default[:passenger][:conf][:passenger_buffer_size] = '32k'
 default[:passenger][:conf][:passenger_user_switching] = nil
 default[:passenger][:conf][:passenger_default_user] = nil
 default[:passenger][:conf][:passenger_default_group] = nil
-

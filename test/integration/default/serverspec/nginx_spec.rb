@@ -94,7 +94,6 @@ server {
 
 server {
   listen   443;
-  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
   server_name  test-kitchen.sportngin.com #{`hostname | tr -d '\n'`};
   access_log  /var/log/nginx/test-kitchen.sportngin.com-ssl.access.log main;
 
