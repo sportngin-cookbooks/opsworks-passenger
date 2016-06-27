@@ -1,5 +1,5 @@
 server {
-  listen   <%= @http_port %><%= " default_server" if @default_server %><%= " proxy_protocol" if node[:nginx][:use_proxy_protocol] %>;
+  listen   <%= @http_port %><%= " default_server" if @default_server %>;
   server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
 
@@ -19,8 +19,8 @@ server {
     passenger_enabled on;
 
     # These don't seem to work in stack, which is in the http {} block
-    passenger_set_header HTTP_X_FORWARDED_FOR   <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$proxy_add_x_forwarded_for" %>;
-    passenger_set_header HTTP_X_REAL_IP         <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$remote_addr" %>;
+    passenger_set_header HTTP_X_FORWARDED_FOR  $proxy_add_x_forwarded_for;
+    passenger_set_header HTTP_X_REAL_IP        $remote_addr;
     passenger_set_header HTTP_HOST              $http_host;
     passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
@@ -59,7 +59,7 @@ server {
 
 <% if @deploy[:ssl_support] %>
 server {
-  listen   <%= @ssl_port %><%= " default_server" if @default_server %><%= " proxy_protocol" if node[:nginx][:use_proxy_protocol] %>;
+  listen   <%= @ssl_port %><%= " default_server" if @default_server %>;
   server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>-ssl.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
 
@@ -91,8 +91,8 @@ server {
     passenger_enabled on;
 
     # These don't seem to work in stack, which is in the http {} block
-    passenger_set_header HTTP_X_FORWARDED_FOR   <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$proxy_add_x_forwarded_for" %>;
-    passenger_set_header HTTP_X_REAL_IP         <%= node[:nginx][:use_proxy_protocol] ? "$proxy_protocol_addr" : "$remote_addr" %>;
+    passenger_set_header HTTP_X_FORWARDED_FOR   $proxy_add_x_forwarded_for;
+    passenger_set_header HTTP_X_REAL_IP         $remote_addr;
     passenger_set_header HTTP_HOST              $http_host;
     passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
@@ -122,7 +122,7 @@ server {
 
 <% if @deploy[:use_proxy_protocol] %>
     server {
-    listen   <%= @proxy_protocol_port %><%= " default_server" if @default_server %> proxy_protocol
+    listen   <%= @proxy_protocol_port %><%= " default_server" if @default_server %> proxy_protocol;
     server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
     access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>-ssl.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
 
