@@ -10,6 +10,13 @@ cookbook_file "#{node[:nginx][:prefix_dir]}/html/maintenance.html" do
 end
 include_recipe "opsworks-passenger::maintenance"
 
+cookbook_file "#{node[:nginx][:dir]}/ssl_server.conf.d/deprecate-weak-tls.conf" do
+  source "deprecate-weak-tls.conf"
+  group "root"
+  owner "root"
+  mode 0644
+end if node[:nginx][:deprecate_weak_tls]
+
 template node[:ruby_wrapper][:install_path] do
   source "ruby-wrapper.sh.erb"
   owner "root"
