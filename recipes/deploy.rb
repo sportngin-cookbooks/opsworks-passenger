@@ -10,7 +10,7 @@ cookbook_file "#{node[:nginx][:prefix_dir]}/html/maintenance.html" do
 end
 include_recipe "opsworks-passenger::maintenance"
 
-cookbook_file "#{node[:nginx][:dir]}/shared_server.conf.d/deprecate-weak-tls.conf" do
+cookbook_file "#{node[:nginx][:dir]}/ssl_server.conf.d/deprecate-weak-tls.conf" do
   source "deprecate-weak-tls.conf"
   group "root"
   owner "root"
