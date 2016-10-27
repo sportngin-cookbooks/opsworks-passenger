@@ -13,6 +13,7 @@ default[:nginx][:use_hsts] = false
 default[:nginx][:ssl_dir] = "#{node[:nginx][:dir]}/ssl"
 default[:nginx][:dh_key] = "#{node[:nginx][:ssl_dir]}/dhparam.pem"
 default[:nginx][:dh_key_bits] = 4096
+default[:nginx][:deprecate_weak_tls] = false
 
 # Custom configuration variables
 default[:nginx][:worker_rlimit_nofile] = nil
