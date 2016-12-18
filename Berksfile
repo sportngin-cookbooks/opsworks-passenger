@@ -36,9 +36,12 @@ source "https://supermarket.chef.io"
   ssh_users
   unicorn
 ].each do |name|
-  cookbook name, github: 'aws/opsworks-cookbooks', branch: 'release-chef-11.4', rel: name
+  cookbook name, github: 'aws/opsworks-cookbooks', branch: 'release-chef-11.10', rel: name
 end
 
-cookbook 'build-essential'
+cookbook 'build-essential', '= 3.2.0'
+cookbook 'ohai', '= 3.0.1'
+cookbook 'seven_zip', '= 2.0.2'
+cookbook 'windows', '= 2.0.2'
 
 metadata
