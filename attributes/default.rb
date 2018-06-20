@@ -45,6 +45,9 @@ default[:nginx][:log_format_name] = 'main'
 
 default[:nginx][:status][:allow] = %w[127.0.0.1]
 
+# By default, nginx is not configured to accept proxy protocol
+default[:nginx][:proxy_protocol_enable] = false
+
 # rubywrapper
 default[:ruby_wrapper][:install_path] = "/usr/local/bin/ruby-wrapper.sh"
 default[:ruby_wrapper][:ruby_binary] = "/usr/local/bin/ruby"
