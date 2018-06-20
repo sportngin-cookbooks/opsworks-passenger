@@ -10,6 +10,11 @@ server {
       return 503;
       break;
     }
+
+  <% if @application[:nginx] && @application[:nginx][:default_location_includes] %>
+    include <%= @application[:nginx][:default_location_includes] %>;
+  <% end %>
+
   <% if @try_static_files %>
     try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>;
   }
