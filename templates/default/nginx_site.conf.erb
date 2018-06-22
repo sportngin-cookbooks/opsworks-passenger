@@ -11,8 +11,8 @@ server {
       break;
     }
 
-  <% if @deploy[:nginx] && @deploy[:nginx][:default_location_includes] %>
-    include <%= @deploy[:nginx][:default_location_includes] %>;
+  <% if @deploy[:nginx] && @deploy[:nginx][:default_location_includes_passenger] %>
+    include <%= @deploy[:nginx][:default_location_includes_passenger] %>;
   <% end %>
 
   <% if @try_static_files %>
