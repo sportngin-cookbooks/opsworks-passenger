@@ -53,10 +53,6 @@ server {
     deny all;
   }
 
-  <% if node[:nginx][:proxy_protocol_enable] %>
-  real_ip_header proxy_protocol;
-  <% end %>
-
   include <%= node[:nginx][:dir] %>/shared_server.conf.d/*.conf;
   include <%= node[:nginx][:dir] %>/http_server.conf.d/*.conf;
 }
