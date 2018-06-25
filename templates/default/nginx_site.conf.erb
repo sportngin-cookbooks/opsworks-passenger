@@ -129,3 +129,66 @@ server {
   include <%= node[:nginx][:dir] %>/ssl_server.conf.d/*.conf;
 }
 <% end %>
+
+<% if @deploy[:use_proxy_protocol] %>
+    server {
+    listen   <%= @proxy_protocol_port %><%= " default_server" if @default_server %> proxy_protocol;
+    server_name  <%= @deploy[:domains].join(" ") %> <%= node[:hostname] %>;
+    access_log  <%= node[:nginx][:log_dir] %>/<%= @deploy[:domains].first %>-ssl.access.log<%=" #{node[:nginx][:log_format_name]}" unless node[:nginx][:log_format_name].nil? %>;
+
+    ssl on;
+    ssl_certificate /etc/nginx/ssl/<%= @deploy[:domains].first %>.crt;
+    ssl_certificate_key /etc/nginx/ssl/<%= @deploy[:domains].first %>.key;
+    <% if @deploy[:ssl_certificate_ca] -%>
+        ssl_client_certificate /etc/nginx/ssl/<%= @deploy[:domains].first %>.ca;
+    <% end -%>
+
+    <% @deploy.fetch(:nginx, {}).fetch(:extra_ssl_server_options, {}).each do |config_key, value| %>
+        <%= config_key %> <%= value %>;
+    <% end %>
+
+    root   <%= @deploy[:absolute_document_root] %>;
+
+
+    location / {
+    if ($maintenance) {
+    return 503;
+    break;
+    }
+    <% if @try_static_files %>
+        try_files  $uri $uri/index.html $uri.html @app_<%= @application_name %>_ssl;
+        }
+        location @app_<%= @application_name %>_ssl {
+    <% end %>
+    # Turn on the passenger Nginx helper for this location.
+    passenger_enabled on;
+
+    # These don't seem to work in stack, which is in the http {} block
+    passenger_set_header HTTP_X_FORWARDED_FOR   $proxy_protocol_addr
+    passenger_set_header HTTP_X_REAL_IP         $proxy_protocol_addr
+    passenger_set_header HTTP_HOST              $http_host;
+    passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
+    # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
+    passenger_set_header HTTP_X_REQUEST_START "t=${msec}";
+
+    # Rails 3.0 apps that use rack-ssl use SERVER_PORT to generate a https
+    # URL. Since internally nginx runs on a different port, the generated
+    # URL looked like this: https://host:81/ instead of https://host/
+    # By setting SERVER_PORT this is avoided.
+    passenger_set_header SERVER_PORT            443;
+
+    #
+    # Define the rack/rails application environment.
+    #
+    rack_env <%= @rails_env %>;
+    }
+
+    error_page 503 /maintenance.html;
+    location = /maintenance.html {
+    root <%= node[:nginx][:prefix_dir] %>/html;
+    }
+
+    include <%= node[:nginx][:dir] %>/shared_server.conf.d/*.conf;
+    include <%= node[:nginx][:dir] %>/ssl_server.conf.d/*.conf;
+    }
+<% end %>

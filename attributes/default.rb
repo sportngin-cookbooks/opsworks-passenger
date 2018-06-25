@@ -21,6 +21,7 @@ default[:nginx][:dh_key_bits] = 4096
 default[:nginx][:worker_rlimit_nofile] = nil
 default[:nginx][:connection_processing_method] = "epoll"
 default[:nginx][:send_timeout] = "60s"
+default[:nginx][:use_proxy_protocol] = false
 
 # Custom Nginx package with passenger module
 default[:nginx][:custom_package][:package_location] = "/usr/src/rpm/RPMS/x86_64/"
