@@ -64,7 +64,7 @@ server {
 
 <% if @deploy[:ssl_support] %>
 server {
-  listen   <%= @ssl_port %><%= " default_server" if @default_server %>;
+  listen   <%= @ssl_port %><%= " default_server" if @default_server %><%= " proxy_protocol" if node[:nginx][:proxy_protocol_enable] %>;
   <% if node[:nginx][:use_hsts] %>
   add_header Strict-Transport-Security "max-age=31536000;"
   <% end -%>
@@ -100,8 +100,13 @@ server {
     passenger_enabled on;
 
     # These don't seem to work in stack, which is in the http {} block
+    <% if node[:nginx][:proxy_protocol_enable] %>
+    passenger_set_header HTTP_X_FORWARDED_FOR   $proxy_protocol_addr;
+    passenger_set_header HTTP_X_REAL_IP         $proxy_protocol_addr;
+    <% else %>
     passenger_set_header HTTP_X_FORWARDED_FOR   $proxy_add_x_forwarded_for;
     passenger_set_header HTTP_X_REAL_IP         $remote_addr;
+    <% end %>
     passenger_set_header HTTP_HOST              $http_host;
     passenger_set_header HTTP_X_FORWARDED_PROTO $scheme;
     # https://docs.newrelic.com/docs/apm/other-features/request-queueing/request-queue-server-configuration-examples#nginx
@@ -124,6 +129,10 @@ server {
   location = /maintenance.html {
     root <%= node[:nginx][:prefix_dir] %>/html;
   }
+
+  <% if node[:nginx][:proxy_protocol_enable] %>
+  real_ip_header proxy_protocol;
+  <% end %>
 
   include <%= node[:nginx][:dir] %>/shared_server.conf.d/*.conf;
   include <%= node[:nginx][:dir] %>/ssl_server.conf.d/*.conf;
