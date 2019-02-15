@@ -71,8 +71,9 @@ default[:passenger][:monitor][:app_name] = nil
 # Passenger
 default[:passenger][:version] = "5.0.16"
 default[:passenger][:rack_version] = "1.6.4" # This is required to support ruby < 2.2 (Rack 2 requires >= 2.2)
-# TODO make passenger root dynamic
-default[:passenger][:conf][:passenger_root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
+
+default[:passenger][:conf][:ruby_version_dir]   = '1.9.1'
+default[:passenger][:conf][:passenger_root] = "/usr/local/lib/ruby/gems/%{ruby_version_dir}/gems/passenger-#{node[:passenger][:version]}"
 default[:passenger][:conf][:passenger_ruby] = node[:ruby_wrapper][:install_path]
 
 # http://blog.phusion.nl/2013/03/12/tuning-phusion-passengers-concurrency-settings/

@@ -15,7 +15,7 @@ end
 
 bash "Setup Nginx integration in passenger gem" do
   code "rake nginx RELEASE=yes"
-  cwd node[:passenger][:conf]["passenger_root"]
+  cwd node[:passenger][:conf][:passenger_root] % { :ruby_version_dir => node[:passenger][:conf][:ruby_version_dir] }
   action :nothing
   subscribes :run, 'gem_package[passenger]', :immediately
 end
