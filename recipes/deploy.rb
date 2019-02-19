@@ -24,8 +24,7 @@ end
 
 opsworks_passenger_nginx_conf "passenger" do
   source "passenger.conf.erb"
-  variables :passenger_conf => node[:passenger][:conf].
-    merge(:passenger_root => OpsworksPassenger.expand_passenger_root(node[:passenger][:conf][:passenger_root], node[:passenger]))
+  variables :passenger_conf => OpsworksPassenger.passenger_conf(node)
 end
 
 template "#{node[:nginx][:dir]}/nginx.conf" do
