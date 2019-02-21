@@ -75,9 +75,14 @@ default[:passenger][:rack_version] = "1.6.4" # This is required to support ruby 
 # Recommended to leave `nil`.
 default[:passenger][:ruby_gem_dir]   = nil
 
-# Default value for passenger_root is expanded with String#format using a hash
-# containing `ruby_gem_dir` and `passenger_version` as substitution variables.
-default[:passenger][:conf][:passenger_root] = "%{ruby_gem_dir}/gems/passenger-%{passenger_version}"
+# This value is expanded with String#format using a hash containing
+# `ruby_gem_dir` and `passenger_version` as substitution variables and used
+# instead of the :passenger_root value below if the value is not overridden.
+# Thus, the default value for :passenger_root is dynamically determined based on
+# the installed ruby.
+default[:passenger][:passenger_root_template] = "%{ruby_gem_dir}/gems/passenger-%{passenger_version}"
+
+default[:passenger][:conf][:passenger_root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
 default[:passenger][:conf][:passenger_ruby] = node[:ruby_wrapper][:install_path]
 
 # http://blog.phusion.nl/2013/03/12/tuning-phusion-passengers-concurrency-settings/
