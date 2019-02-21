@@ -71,7 +71,17 @@ default[:passenger][:monitor][:app_name] = nil
 # Passenger
 default[:passenger][:version] = "5.0.16"
 default[:passenger][:rack_version] = "1.6.4" # This is required to support ruby < 2.2 (Rack 2 requires >= 2.2)
-# TODO make passenger root dynamic
+# Full path to ruby gems. `nil` means compute based on currently installed ruby.
+# Recommended to leave `nil`.
+default[:passenger][:ruby_gem_dir]   = nil
+
+# This value is expanded with String#format using a hash containing
+# `ruby_gem_dir` and `passenger_version` as substitution variables and used
+# instead of the :passenger_root value below if the value is not overridden.
+# Thus, the default value for :passenger_root is dynamically determined based on
+# the installed ruby.
+default[:passenger][:passenger_root_template] = "%{ruby_gem_dir}/gems/passenger-%{passenger_version}"
+
 default[:passenger][:conf][:passenger_root] = "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{node[:passenger][:version]}"
 default[:passenger][:conf][:passenger_ruby] = node[:ruby_wrapper][:install_path]
 
