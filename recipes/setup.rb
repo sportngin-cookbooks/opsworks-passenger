@@ -15,7 +15,7 @@ end
 
 bash "Setup Nginx integration in passenger gem" do
   code "rake nginx RELEASE=yes"
-  cwd OpsworksPassenger.expand_passenger_root(node)
+  cwd "/usr/local/bin/gem contents passenger --show-install-dir"
   action :nothing
   subscribes :run, 'gem_package[passenger]', :immediately
 end
