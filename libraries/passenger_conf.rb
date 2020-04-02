@@ -12,7 +12,7 @@ module OpsworksPassenger
 
     Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
     ruby_gem_dir_command = "ruby -rubygems -e 'print Gem.dir'"
-    ruby_gem_dir_command_output = shell_out(command)
+    ruby_gem_dir_command_output = shell_out(ruby_gem_dir_command)
 
     ruby_gem_dir = node[:passenger][:ruby_gem_dir] || ruby_gem_dir_command_output.stdout
     node[:passenger][:passenger_root_template] % {
