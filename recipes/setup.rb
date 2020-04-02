@@ -17,9 +17,7 @@ bash "Setup Nginx integration in passenger gem" do
   code "rake nginx RELEASE=yes"
   cwd `gem contents passenger --show-install-dir`
   action :nothing
-  subscribes :run, 'gem_package[passenger]', :immediately
-  retries 5
-  retry_delay 5
+  subscribes :run, 'gem_package[passenger]', :delayed
 end
 
 include_recipe "opsworks-passenger::custom_package"
