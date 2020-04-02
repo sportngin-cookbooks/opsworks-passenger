@@ -14,7 +14,10 @@ gem_package "passenger" do
 end
 
 bash "Setup Nginx integration in passenger gem" do
-  command "cd #{`env -i /usr/local/bin/passenger-config --root`.strip} && env -i PATH=/usr/bin:/bin:/usr/local/bin /usr/local/bin/rake nginx RELEASE=yes"
+  code <<-EOH
+    cd $(env -i /usr/local/bin/passenger-config --root)
+    rake nginx RELEASE=yes
+  EOH
   action :nothing
   subscribes :run, 'gem_package[passenger]', :immediately
 end
