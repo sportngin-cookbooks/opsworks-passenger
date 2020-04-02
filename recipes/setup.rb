@@ -13,10 +13,8 @@ gem_package "passenger" do
   not_if "/usr/local/bin/gem list | grep 'passenger (#{node[:passenger][:version]}'"
 end
 
-ruby_block "Setup Nginx integration in passenger gem" do
-  block do
-    Mixlib::ShellOut.new("rake nginx RELEASE=yes", :cwd => `/usr/local/bin/gem contents passenger --show-install-dir`).run_command
-  end
+bash "Setup Nginx integration in passenger gem" do
+  command "cd #{`env -i /usr/local/bin/passenger-config --root`.strip} && env -i PATH=/usr/bin:/bin:/usr/local/bin /usr/local/bin/rake nginx RELEASE=yes"
   action :nothing
   subscribes :run, 'gem_package[passenger]', :immediately
 end
