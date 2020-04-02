@@ -13,11 +13,12 @@ gem_package "passenger" do
   not_if "/usr/local/bin/gem list | grep 'passenger (#{node[:passenger][:version]}'"
 end
 
-bash "Setup Nginx integration in passenger gem" do
-  code "rake nginx RELEASE=yes"
-  cwd `gem contents passenger --show-install-dir`
+ruby_block "Setup Nginx integration in passenger gem" do
+  block do
+    Mixlib::ShellOut.new("rake nginx RELEASE=yes", :cwd => `/usr/local/bin/gem contents passenger --show-install-dir`).run_command
+  end
   action :nothing
-  subscribes :run, 'gem_package[passenger]', :delayed
+  subscribes :run, 'gem_package[passenger]', :immediately
 end
 
 include_recipe "opsworks-passenger::custom_package"
