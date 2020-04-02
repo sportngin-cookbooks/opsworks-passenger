@@ -15,7 +15,7 @@ end
 
 bash "Setup Nginx integration in passenger gem" do
   code <<-EOH
-    cd $(env -i /usr/local/bin/passenger-config --root)
+    cd $(/usr/local/bin/gem contents passenger --show-install-dir)
     rake nginx RELEASE=yes
   EOH
   action :nothing
