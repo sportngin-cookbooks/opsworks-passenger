@@ -18,6 +18,8 @@ bash "Setup Nginx integration in passenger gem" do
   cwd `gem contents passenger --show-install-dir`
   action :nothing
   subscribes :run, 'gem_package[passenger]', :immediately
+  retries 5
+  retry_delay 5
 end
 
 include_recipe "opsworks-passenger::custom_package"
