@@ -10,7 +10,7 @@ module OpsworksPassenger
       return node[:passenger][:conf][:passenger_root]
     end
 
-    cmd = Mixlib::ShellOut.new("/usr/local/bin/ruby -rubygems -e 'print Gem.dir'")
+    cmd = Mixlib::ShellOut.new("env -i /usr/local/bin/gem env gemdir")
 
     ruby_gem_dir = node[:passenger][:ruby_gem_dir] || cmd.run_command.stdout
     node[:passenger][:passenger_root_template] % {
