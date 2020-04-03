@@ -1,6 +1,8 @@
 module OpsworksPassenger
   module_function
 
+  include Chef::Mixin::ShellOut
+
   def passenger_conf(node)
     node[:passenger][:conf].merge(:passenger_root => expand_passenger_root(node))
   end
@@ -10,11 +12,9 @@ module OpsworksPassenger
       return node[:passenger][:conf][:passenger_root]
     end
 
-    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-    ruby_gem_dir_command = "ruby -rubygems -e 'print Gem.dir'"
-    ruby_gem_dir_command_output = shell_out(ruby_gem_dir_command)
+    cmd = shell_out("ruby -rubygems -e 'print Gem.dir'")
 
-    ruby_gem_dir = node[:passenger][:ruby_gem_dir] || ruby_gem_dir_command_output.stdout
+    ruby_gem_dir = node[:passenger][:ruby_gem_dir] || cmd.stdout
     node[:passenger][:passenger_root_template] % {
       :ruby_gem_dir => ruby_gem_dir,
       :passenger_version => node[:passenger][:version]
