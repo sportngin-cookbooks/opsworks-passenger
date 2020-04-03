@@ -1,5 +1,5 @@
 module OpsworksPassenger
-  module_function
+  module Helper
 
   include Chef::Mixin::ShellOut
 
