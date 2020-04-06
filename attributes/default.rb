@@ -71,9 +71,27 @@ default[:passenger][:monitor][:app_name] = nil
 # Passenger
 default[:passenger][:version] = "5.0.16"
 default[:passenger][:rack_version] = "1.6.4" # This is required to support ruby < 2.2 (Rack 2 requires >= 2.2)
-# Full path to ruby gems. `nil` means compute based on currently installed ruby.
-# Recommended to leave `nil`.
-default[:passenger][:ruby_gem_dir]   = nil
+
+case node[:opsworks][:ruby_version]
+when /^1\.8/
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/1.8/gems'
+when /^1\.9/
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/1.9.1/gems'
+when /^2\.0/
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.0.0/gems'
+when /^2\.1/
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.1.0/gems'
+when /^2\.2/
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.2.0/gems'
+when /^2\.3/
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.3.0/gems'
+when /^2\.6/
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.6.0/gems'
+else
+    Chef::Log.warn "Unsupported Ruby version '#{node[:opsworks][:ruby_version]}'. Unable to set passenger ruby_gem_dir."
+    default[:passenger][:ruby_gem_dir] = '/'
+end
+
 
 # This value is expanded with String#format using a hash containing
 # `ruby_gem_dir` and `passenger_version` as substitution variables and used
