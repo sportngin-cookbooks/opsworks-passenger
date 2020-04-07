@@ -24,7 +24,9 @@ end
 
 opsworks_passenger_nginx_conf "passenger" do
   source "passenger.conf.erb"
-  variables :passenger_conf => OpsworksPassenger.passenger_conf(node)
+  variables(
+    :passenger_conf => node[:passenger][:conf]
+  )
 end
 
 template "#{node[:nginx][:dir]}/nginx.conf" do
