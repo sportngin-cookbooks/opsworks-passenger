@@ -88,8 +88,7 @@ when /^2\.3/
 when /^2\.6/
     default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.6.0/gems'
 else
-    Chef::Log.warn "Unsupported Ruby version '#{node[:opsworks][:ruby_version]}'. Unable to set passenger ruby_gem_dir."
-    default[:passenger][:ruby_gem_dir] = '/'
+    raise "Unsupported Ruby version '#{node[:opsworks][:ruby_version]}'. Unable to set passenger ruby_gem_dir."
 end
 
 
