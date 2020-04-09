@@ -74,19 +74,19 @@ default[:passenger][:rack_version] = "1.6.4" # This is required to support ruby 
 
 case node[:opsworks][:ruby_version]
 when /^1\.8/
-    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/1.8/gems'
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/1.8'
 when /^1\.9/
-    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/1.9.1/gems'
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/1.9.1'
 when /^2\.0/
-    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.0.0/gems'
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.0.0'
 when /^2\.1/
-    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.1.0/gems'
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.1.0'
 when /^2\.2/
-    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.2.0/gems'
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.2.0'
 when /^2\.3/
-    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.3.0/gems'
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.3.0'
 when /^2\.6/
-    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.6.0/gems'
+    default[:passenger][:ruby_gem_dir] = '/usr/local/lib/ruby/gems/2.6.0'
 else
     raise "Unsupported Ruby version '#{node[:opsworks][:ruby_version]}'. Unable to set passenger ruby_gem_dir."
 end
